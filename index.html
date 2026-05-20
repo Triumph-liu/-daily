@@ -1,0 +1,3896 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>小暑条专属助手</title>
+
+<!-- PWA Meta Tags -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="小暑条助手">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#ff7eb3">
+<meta name="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><rect fill='%23ff7eb3' width='180' height='180' rx='36'/><text x='90' y='110' text-anchor='middle' font-size='90'>🌸</text></svg>">
+
+<style>
+/* ========== CSS Variables & Theme System ========== */
+:root {
+  --primary: #ff7eb3;
+  --primary-light: #ffb6d3;
+  --primary-dark: #e8618c;
+  --bg: #fff5f7;
+  --bg-card: #ffffff;
+  --bg-card-hover: #fff0f3;
+  --text: #4a3040;
+  --text-secondary: #8a6e7a;
+  --border: #f0d0dd;
+  --shadow: 0 4px 20px rgba(255, 126, 179, 0.15);
+  --accent: #ff6b9d;
+  --success: #66bb6a;
+  --warning: #ffa726;
+  --danger: #ef5350;
+  --info: #42a5f5;
+  --nav-bg: rgba(255,255,255,0.85);
+  --bg-pattern: url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 5 Q35 15 30 25 L30 5Z M30 5 Q25 15 30 25' fill='%23ffb6d320'/%3E%3Ccircle cx='30' cy='30' r='3' fill='%23ffb6d330'/%3E%3C/svg%3E");
+  --pattern-opacity: 1;
+  --card-radius: 20px;
+  --btn-radius: 25px;
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ===== Rilakkuma Theme ===== */
+[data-theme="rilakkuma"] {
+  --primary: #c8956c;
+  --primary-light: #e8c9a0;
+  --primary-dark: #a6734e;
+  --bg: #fff8f0;
+  --bg-card: #ffffff;
+  --bg-card-hover: #fff3e8;
+  --text: #5a3e2b;
+  --text-secondary: #8b6f5a;
+  --border: #e8d5c0;
+  --shadow: 0 4px 20px rgba(200, 149, 108, 0.15);
+  --accent: #d4a76a;
+  --nav-bg: rgba(255,255,255,0.9);
+}
+/* ===== Rilakkuma bg0: Sakura Petals ===== */
+[data-theme="rilakkuma"][data-bg="0"] {
+  --bg: #fff5ed;
+  --bg-pattern: url("data:image/svg+xml,%3Csvg width='120' height='120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23e8b8a028'%3E%3Cpath d='M35 30 C30 22 18 22 13 30 C8 22 -4 22 -9 30 C-4 38 8 38 13 30 C18 38 30 38 35 30Z' transform='translate(66,24) scale(0.7)'/%3E%3Cpath d='M35 30 C30 22 18 22 13 30 C8 22 -4 22 -9 30 C-4 38 8 38 13 30 C18 38 30 38 35 30Z' transform='translate(18,60) scale(0.55)'/%3E%3Cpath d='M35 30 C30 22 18 22 13 30 C8 22 -4 22 -9 30 C-4 38 8 38 13 30 C18 38 30 38 35 30Z' transform='translate(78,90) scale(0.5)'/%3E%3Cellipse cx='30' cy='110' rx='3' ry='2' transform='rotate(30 30 110)'/%3E%3Cellipse cx='95' cy='15' rx='3' ry='2' transform='rotate(-25 95 15)'/%3E%3Cellipse cx='50' cy='75' rx='2.5' ry='1.5' transform='rotate(45 50 75)'/%3E%3Cellipse cx='10' cy='25' rx='2' ry='1.5' transform='rotate(-15 10 25)'/%3E%3Cellipse cx='105' cy='55' rx='2' ry='1.5' transform='rotate(60 105 55)'/%3E%3C/g%3E%3C/svg%3E");
+  --bg-card: #fffaf5;
+}
+/* ===== Rilakkuma bg1: Bear Faces ===== */
+[data-theme="rilakkuma"][data-bg="1"] {
+  --bg: #fef9f0;
+  --bg-pattern: url("data:image/svg+xml,%3Csvg width='130' height='120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23d4a76a16'%3E%3Cellipse cx='50' cy='42' rx='20' ry='17'/%3E%3Ccircle cx='50' cy='32' r='9'/%3E%3Ccircle cx='42' cy='26' r='5'/%3E%3Ccircle cx='58' cy='26' r='5'/%3E%3Ccircle cx='45' cy='39' r='2'/%3E%3Ccircle cx='55' cy='39' r='2'/%3E%3Cellipse cx='50' cy='46' rx='3' ry='2.5' fill='%23d4a76a22'/%3E%3Cpath d='M47 50 Q50 54 53 50' stroke='%23d4a76a18' stroke-width='1.2' fill='none'/%3E%3C/g%3E%3Cg fill='%23d4a76a10'%3E%3Cellipse cx='100' cy='85' rx='15' ry='13'/%3E%3Ccircle cx='100' cy='77' r='7'/%3E%3Ccircle cx='94' cy='73' r='4'/%3E%3Ccircle cx='106' cy='73' r='4'/%3E%3Ccircle cx='96' cy='82' r='1.5'/%3E%3Ccircle cx='104' cy='82' r='1.5'/%3E%3Cellipse cx='100' cy='87' rx='2.5' ry='2' fill='%23d4a76a16'/%3E%3C/g%3E%3C/svg%3E");
+  --bg-card: #fffcf5;
+}
+/* ===== Rilakkuma bg2: Paw Prints ===== */
+[data-theme="rilakkuma"][data-bg="2"] {
+  --bg: #faf8f5;
+  --bg-pattern: url("data:image/svg+xml,%3Csvg width='110' height='110' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23c8956c14'%3E%3Cellipse cx='40' cy='40' rx='10' ry='8'/%3E%3Cellipse cx='28' cy='28' rx='4' ry='5' transform='rotate(-15 28 28)'/%3E%3Cellipse cx='40' cy='22' rx='4' ry='5' transform='rotate(5 40 22)'/%3E%3Cellipse cx='52' cy='28' rx='4' ry='5' transform='rotate(25 52 28)'/%3E%3C/g%3E%3Cg fill='%23c8956c0f'%3E%3Cellipse cx='88' cy='88' rx='8' ry='6'/%3E%3Cellipse cx='78' cy='78' rx='3.5' ry='4' transform='rotate(-15 78 78)'/%3E%3Cellipse cx='88' cy='73' rx='3.5' ry='4' transform='rotate(5 88 73)'/%3E%3Cellipse cx='98' cy='78' rx='3.5' ry='4' transform='rotate(25 98 78)'/%3E%3C/g%3E%3Ccircle cx='55' cy='80' r='1.5' fill='%23c8956c0b'/%3E%3Ccircle cx='20' cy='70' r='1.5' fill='%23c8956c0b'/%3E%3Ccircle cx='75' cy='20' r='1.5' fill='%23c8956c0b'/%3E%3C/svg%3E");
+  --bg-card: #fffefb;
+}
+/* ===== Rilakkuma bg3: Clouds & Birds ===== */
+[data-theme="rilakkuma"][data-bg="3"] {
+  --bg: #f0f4f8;
+  --bg-pattern: url("data:image/svg+xml,%3Csvg width='150' height='110' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%2390b4d013'%3E%3Cpath d='M25 40 Q20 30 28 25 Q32 15 42 20 Q50 10 60 18 Q70 8 78 20 Q88 15 90 28 Q100 30 95 40 Z'/%3E%3C/g%3E%3Cg fill='%23a0c4e00e'%3E%3Cpath d='M55 85 Q50 76 58 72 Q62 64 70 68 Q76 58 84 64 Q92 56 98 66 Q106 62 106 72 Q114 74 110 82 Z'/%3E%3C/g%3E%3Cpath d='M14 50 Q18 46 22 50 Q18 48 14 50Z M26 48 Q30 44 34 48 Q30 46 26 48Z' fill='%2390b4d018'/%3E%3Cpath d='M110 25 Q114 21 118 25 Q114 23 110 25Z M122 23 Q126 19 130 23 Q126 21 122 23Z M116 28 Q120 24 124 28 Q120 26 116 28Z' fill='%2390b4d014'/%3E%3C/svg%3E");
+  --bg-card: #f8fafc;
+}
+
+/* ===== Kuromi Theme ===== */
+[data-theme="kuromi"] {
+  --primary: #9b59b6;
+  --primary-light: #c89bdb;
+  --primary-dark: #7d3c98;
+  --bg: #1a1a2e;
+  --bg-card: #252540;
+  --bg-card-hover: #2d2d4a;
+  --text: #e8d5f5;
+  --text-secondary: #b8a0c8;
+  --border: #3d2d50;
+  --shadow: 0 4px 20px rgba(155, 89, 182, 0.2);
+  --accent: #e056a0;
+  --success: #7bdcb5;
+  --warning: #f0c040;
+  --danger: #e06070;
+  --info: #78b8f0;
+  --nav-bg: rgba(26,26,46,0.9);
+}
+/* ===== Kuromi bg0: Starry Night ===== */
+[data-theme="kuromi"][data-bg="0"] {
+  --bg: #1a1a2e;
+  --bg-pattern: url("data:image/svg+xml,%3Csvg width='130' height='130' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23c89bdb28'%3E%3Cpath d='M20 20 L22 26 L28 28 L22 30 L20 36 L18 30 L12 28 L18 26Z'/%3E%3Cpath d='M65 8 L66.5 13 L72 14.5 L66.5 16 L65 21 L63.5 16 L58 14.5 L63.5 13Z'/%3E%3Cpath d='M110 40 L111.5 45 L117 46.5 L111.5 48 L110 53 L108.5 48 L103 46.5 L108.5 45Z'/%3E%3Cpath d='M8 80 L9.5 85 L15 86.5 L9.5 88 L8 93 L6.5 88 L1 86.5 L6.5 85Z'/%3E%3Cpath d='M50 100 L51.5 105 L57 106.5 L51.5 108 L50 113 L48.5 108 L43 106.5 L48.5 105Z'/%3E%3Cpath d='M115 100 L116 103 L119 104 L116 105 L115 108 L114 105 L111 104 L114 103Z'/%3E%3C/g%3E%3Ccircle cx='35' cy='60' r='1.5' fill='%23c89bdb20'/%3E%3Ccircle cx='80' cy='30' r='1' fill='%23e056a018'/%3E%3Ccircle cx='10' cy='40' r='1' fill='%23c89bdb18'/%3E%3Ccircle cx='95' cy='75' r='1.5' fill='%23e056a015'/%3E%3Ccircle cx='45' cy='120' r='1' fill='%23c89bdb18'/%3E%3Ccircle cx='120' cy='20' r='1' fill='%23e056a015'/%3E%3Cpath d='M55 65 Q60 58 65 65 Q60 62 55 65Z' fill='%23c89bdb15'/%3E%3C/svg%3E");
+  --bg-card: #252540;
+}
+/* ===== Kuromi bg1: Skull Motif ===== */
+[data-theme="kuromi"][data-bg="1"] {
+  --bg: #1e1e30;
+  --bg-pattern: url("data:image/svg+xml,%3Csvg width='120' height='120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%239b59b60e'%3E%3Ccircle cx='30' cy='30' r='14'/%3E%3Crect x='22' y='32' width='16' height='12' rx='2'/%3E%3Ccircle cx='25' cy='27' r='3' fill='%231e1e30'/%3E%3Ccircle cx='35' cy='27' r='3' fill='%231e1e30'/%3E%3Ccircle cx='30' cy='31' r='2' fill='%231e1e30'/%3E%3Crect x='26' y='38' width='8' height='3' rx='1' fill='%231e1e30'/%3E%3C/g%3E%3Cg fill='%239b59b608'%3E%3Ccircle cx='90' cy='90' r='10'/%3E%3Crect x='84' y='92' width='12' height='9' rx='2'/%3E%3Ccircle cx='86' cy='88' r='2' fill='%231e1e30'/%3E%3Ccircle cx='94' cy='88' r='2' fill='%231e1e30'/%3E%3Ccircle cx='90' cy='91' r='1.5' fill='%231e1e30'/%3E%3C/g%3E%3C/svg%3E");
+  --bg-card: #282840;
+}
+/* ===== Kuromi bg2: Bat Silhouettes ===== */
+[data-theme="kuromi"][data-bg="2"] {
+  --bg: #16202a;
+  --bg-pattern: url("data:image/svg+xml,%3Csvg width='140' height='140' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%239b59b610'%3E%3Cpath d='M35 40 Q20 20 5 28 Q12 32 15 38 Q10 35 3 40 Q15 45 18 42 L20 44 L22 42 Q25 45 35 40Z'/%3E%3Cpath d='M105 100 Q90 80 75 88 Q82 92 85 98 Q80 95 73 100 Q85 105 88 102 L90 104 L92 102 Q95 105 105 100Z'/%3E%3C/g%3E%3Ccircle cx='60' cy='20' r='1.5' fill='%239b59b60a'/%3E%3Ccircle cx='120' cy='50' r='1' fill='%239b59b60a'/%3E%3Ccircle cx='20' cy='100' r='1' fill='%239b59b60a'/%3E%3Ccircle cx='70' cy='120' r='1.5' fill='%239b59b60a'/%3E%3C/svg%3E");
+  --bg-card: #1e2a36;
+}
+/* ===== Kuromi bg3: Gothic Diamonds ===== */
+[data-theme="kuromi"][data-bg="3"] {
+  --bg: #1c1028;
+  --bg-pattern: url("data:image/svg+xml,%3Csvg width='120' height='120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%239b59b60f'%3E%3Cpath d='M60 8 L70 30 L60 52 L50 30Z'/%3E%3Cpath d='M20 50 L26 62 L20 74 L14 62Z'/%3E%3Cpath d='M100 50 L106 62 L100 74 L94 62Z'/%3E%3Cpath d='M60 68 L70 90 L60 112 L50 90Z'/%3E%3C/g%3E%3Ccircle cx='60' cy='30' r='2' fill='%23e056a014'/%3E%3Ccircle cx='20' cy='62' r='1.5' fill='%23c89bdb10'/%3E%3Ccircle cx='100' cy='62' r='1.5' fill='%23c89bdb10'/%3E%3Ccircle cx='60' cy='90' r='2' fill='%23e056a014'/%3E%3Ccircle cx='40' cy='110' r='1' fill='%23c89bdb0c'/%3E%3Ccircle cx='80' cy='10' r='1' fill='%23c89bdb0c'/%3E%3C/svg%3E");
+  --bg-card: #261838;
+}
+
+/* ===== Hello Kitty Theme ===== */
+[data-theme="hellokitty"] {
+  --primary: #ff6b9d;
+  --primary-light: #ffb3cc;
+  --primary-dark: #e84d80;
+  --bg: #fff0f4;
+  --bg-card: #ffffff;
+  --bg-card-hover: #fff5f8;
+  --text: #5a3040;
+  --text-secondary: #9a6a7a;
+  --border: #fccdd9;
+  --shadow: 0 4px 20px rgba(255, 107, 157, 0.12);
+  --accent: #ff4081;
+  --nav-bg: rgba(255,255,255,0.9);
+}
+/* ===== HelloKitty bg0: Ribbon Bows ===== */
+[data-theme="hellokitty"][data-bg="0"] {
+  --bg: #fff0f4;
+  --bg-pattern: url("data:image/svg+xml,%3Csvg width='110' height='110' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffb3cc1c'%3E%3Cpath d='M40 25 Q25 10 22 22 Q18 10 10 18 Q18 25 15 30 Q25 28 30 32 L30 40 Q35 35 40 40 L40 32 Q45 28 55 30 Q52 25 60 18 Q52 10 48 22 Q45 10 40 25Z'/%3E%3C/g%3E%3Cg fill='%23ffb3cc10'%3E%3Cpath d='M85 75 Q72 62 69 72 Q66 62 59 69 Q66 75 64 79 Q72 77 76 81 L76 88 Q80 84 84 88 L84 81 Q88 77 96 79 Q94 75 100 69 Q93 62 90 72 Q87 62 85 75Z'/%3E%3C/g%3E%3Ccircle cx='20' cy='75' r='1.5' fill='%23ff6b9d10'/%3E%3Ccircle cx='95' cy='25' r='1.5' fill='%23ff6b9d10'/%3E%3Ccircle cx='55' cy='65' r='1' fill='%23ff6b9d0b'/%3E%3C/svg%3E");
+  --bg-card: #fffafa;
+}
+/* ===== HelloKitty bg1: Hearts & Strawberries ===== */
+[data-theme="hellokitty"][data-bg="1"] {
+  --bg: #fff5f0;
+  --bg-pattern: url("data:image/svg+xml,%3Csvg width='110' height='110' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ff6b9d16'%3E%3Cpath d='M30 22 Q25 14 18 20 Q22 28 30 22Z'/%3E%3Cpath d='M30 22 Q35 14 42 20 Q38 28 30 22Z'/%3E%3C/g%3E%3Cg fill='%23ff6b9d0d'%3E%3Cpath d='M80 70 Q76 64 70 68 Q75 74 80 70Z'/%3E%3Cpath d='M80 70 Q84 64 90 68 Q85 74 80 70Z'/%3E%3C/g%3E%3Cg fill='%23ff6b9d12'%3E%3Cpath d='M55 55 Q52 48 45 52 Q49 58 55 55Z'/%3E%3Cpath d='M55 55 Q58 48 62 54 Q57 58 55 55Z'/%3E%3C/g%3E%3Ccircle cx='24' cy='36' r='1.2' fill='%23ff40810d'/%3E%3Ccircle cx='36' cy='36' r='1.2' fill='%23ff40810d'/%3E%3Ccircle cx='30' cy='30' r='1' fill='%23ff408108'/%3E%3Ccircle cx='76' cy='80' r='1' fill='%23ff40810d'/%3E%3Ccircle cx='84' cy='80' r='1' fill='%23ff40810d'/%3E%3C/svg%3E");
+  --bg-card: #fffaf7;
+}
+/* ===== HelloKitty bg2: 5-Petal Flowers ===== */
+[data-theme="hellokitty"][data-bg="2"] {
+  --bg: #f8f4ff;
+  --bg-pattern: url("data:image/svg+xml,%3Csvg width='110' height='110' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffb3cc1c'%3E%3Ccircle cx='30' cy='30' r='5'/%3E%3Ccircle cx='22' cy='26' r='4.5'/%3E%3Ccircle cx='38' cy='26' r='4.5'/%3E%3Ccircle cx='38' cy='34' r='4.5'/%3E%3Ccircle cx='22' cy='34' r='4.5'/%3E%3Ccircle cx='30' cy='30' r='3' fill='%23ff6b9d16'/%3E%3C/g%3E%3Cg fill='%23ffb3cc12'%3E%3Ccircle cx='80' cy='80' r='4'/%3E%3Ccircle cx='73' cy='77' r='3.5'/%3E%3Ccircle cx='87' cy='77' r='3.5'/%3E%3Ccircle cx='87' cy='83' r='3.5'/%3E%3Ccircle cx='73' cy='83' r='3.5'/%3E%3Ccircle cx='80' cy='80' r='2.5' fill='%23ff6b9d12'/%3E%3C/g%3E%3Ccircle cx='55' cy='15' r='1.5' fill='%23ffb3cc0c'/%3E%3Ccircle cx='10' cy='70' r='1.5' fill='%23ffb3cc0c'/%3E%3Ccircle cx='100' cy='40' r='1.5' fill='%23ffb3cc0c'/%3E%3C/svg%3E");
+  --bg-card: #fefcff;
+}
+/* ===== HelloKitty bg3: Apples ===== */
+[data-theme="hellokitty"][data-bg="3"] {
+  --bg: #f0faf0;
+  --bg-pattern: url("data:image/svg+xml,%3Csvg width='120' height='120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ff6b9d12'%3E%3Cpath d='M35 25 Q25 15 23 28 Q18 38 28 48 Q35 52 42 48 Q52 38 47 28 Q45 15 35 25Z'/%3E%3Cpath d='M33 22 Q35 16 37 22' stroke='%2399bb8818' stroke-width='1.5' fill='none'/%3E%3Cellipse cx='33' cy='18' rx='3' ry='2' fill='%2399bb8815' transform='rotate(-20 33 18)'/%3E%3C/g%3E%3Cg fill='%23ff6b9d0c'%3E%3Cpath d='M85 80 Q77 72 75 82 Q72 90 80 98 Q85 101 90 98 Q98 90 95 82 Q93 72 85 80Z'/%3E%3Cpath d='M83 78 Q85 73 87 78' stroke='%2399bb8814' stroke-width='1.2' fill='none'/%3E%3Cellipse cx='83' cy='75' rx='2.5' ry='1.5' fill='%2399bb8810' transform='rotate(-20 83 75)'/%3E%3C/g%3E%3Ccircle cx='15' cy='90' r='1.5' fill='%2399bb880d'/%3E%3Ccircle cx='108' cy='35' r='1.5' fill='%2399bb880d'/%3E%3C/svg%3E");
+  --bg-card: #f8fcf8;
+}
+
+/* ========== Global Styles ========== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  background: var(--bg);
+  background-image: var(--bg-pattern);
+  color: var(--text);
+  min-height: 100vh;
+  transition: background var(--transition), color var(--transition);
+  line-height: 1.6;
+  padding-bottom: 80px;
+}
+
+.container { max-width: 900px; margin: 0 auto; padding: 12px 14px; }
+
+/* ========== Header ========== */
+.header {
+  background: var(--nav-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.header-title {
+  font-size: 1.2em;
+  font-weight: 700;
+  color: var(--text);
+}
+.header-settings {
+  background: none;
+  border: none;
+  font-size: 1.4em;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 50%;
+  transition: var(--transition);
+  color: var(--text-secondary);
+}
+.header-settings:hover { background: var(--bg-card-hover); color: var(--text); }
+
+/* ========== Bottom Navigation ========== */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--nav-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 6px 4px;
+  padding-bottom: max(6px, env(safe-area-inset-bottom));
+  z-index: 100;
+  box-shadow: 0 -2px 20px rgba(0,0,0,0.06);
+}
+.bottom-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 10px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 0.68em;
+  font-weight: 500;
+  transition: var(--transition);
+  font-family: inherit;
+  border-radius: 12px;
+  min-width: 44px;
+}
+.bottom-nav-item .nav-icon {
+  font-size: 1.5em;
+  transition: var(--transition);
+}
+.bottom-nav-item.active {
+  color: var(--primary);
+  font-weight: 700;
+}
+.bottom-nav-item.active .nav-icon {
+  transform: scale(1.1);
+}
+
+/* ========== Pages ========== */
+.page { display: none; animation: fadeIn 0.4s ease; }
+.page.active { display: block; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ========== Cards ========== */
+.card {
+  background: var(--bg-card);
+  border-radius: var(--card-radius);
+  padding: 22px;
+  margin-bottom: 16px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  transition: all var(--transition);
+}
+.card:hover { box-shadow: 0 6px 28px rgba(0,0,0,0.1); }
+.card-title {
+  font-size: 1.15em;
+  font-weight: 700;
+  margin-bottom: 14px;
+  color: var(--primary-dark);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.card-title .icon { font-size: 1.3em; }
+
+/* ========== Buttons ========== */
+.btn {
+  padding: 10px 22px;
+  border-radius: var(--btn-radius);
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9em;
+  transition: var(--transition);
+  font-family: inherit;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.18); }
+.btn-outline {
+  background: transparent;
+  border: 2px solid var(--primary);
+  color: var(--primary);
+}
+.btn-outline:hover { background: var(--primary); color: #fff; }
+.btn-sm { padding: 6px 14px; font-size: 0.8em; }
+.btn-xs { padding: 4px 10px; font-size: 0.75em; border-radius: 15px; }
+.btn-danger { background: var(--danger); color: #fff; }
+.btn-success { background: var(--success); color: #fff; }
+
+/* ========== Inputs ========== */
+.input {
+  padding: 10px 16px;
+  border-radius: 12px;
+  border: 2px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text);
+  font-size: 0.9em;
+  font-family: inherit;
+  transition: var(--transition);
+  width: 100%;
+  outline: none;
+}
+.input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-light); }
+.input-group { display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+.input-group .input { flex: 1; min-width: 120px; }
+
+select.input { cursor: pointer; }
+
+/* ========== Dashboard ========== */
+.love-days-card {
+  text-align: center;
+  padding: 24px 20px;
+  background: linear-gradient(135deg, var(--bg-card-hover), var(--bg-card));
+  border-radius: var(--card-radius);
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.love-days-card::before {
+  content: '';
+  position: absolute;
+  top: -30px;
+  right: -30px;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: var(--primary-light);
+  opacity: 0.15;
+}
+.love-days-hearts {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0.3;
+  font-size: 1.5em;
+}
+.love-days-num {
+  font-size: 2.8em;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--accent), var(--primary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+}
+.love-days-label {
+  font-size: 0.95em;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+.love-days-since {
+  font-size: 0.78em;
+  color: var(--text-secondary);
+  margin-top: 4px;
+  opacity: 0.75;
+}
+
+.mini-calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 3px;
+  text-align: center;
+  font-size: 0.78em;
+}
+.mini-calendar .mini-day-header {
+  font-weight: 600;
+  color: var(--text-secondary);
+  padding: 3px 0;
+  font-size: 0.9em;
+}
+.mini-calendar .mini-day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: default;
+  position: relative;
+}
+.mini-calendar .mini-day.other-month { opacity: 0.25; }
+.mini-calendar .mini-day.today {
+  background: var(--primary);
+  color: #fff;
+  font-weight: 700;
+  box-shadow: 0 2px 8px var(--shadow);
+}
+.mini-calendar .mini-day.period-dot::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--danger);
+}
+.mini-calendar .mini-day.today.period-dot::after {
+  background: #fff;
+}
+
+.quote-text {
+  font-size: 1.1em;
+  color: var(--text);
+  line-height: 1.7;
+  padding: 4px 0;
+}
+.quote-refresh {
+  background: none;
+  border: none;
+  font-size: 1.1em;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: var(--transition);
+  padding: 4px 8px;
+  border-radius: 50%;
+}
+.quote-refresh:hover { opacity: 1; transform: rotate(20deg); background: var(--bg-card-hover); }
+
+.weather-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+.weather-item {
+  text-align: center;
+  padding: 12px 8px;
+  background: var(--bg-card-hover);
+  border-radius: 14px;
+}
+.weather-item .val { font-size: 1.3em; font-weight: 700; color: var(--primary); }
+.weather-item .lbl { font-size: 0.78em; color: var(--text-secondary); margin-top: 2px; }
+
+.alert-list { margin-top: 10px; }
+.alert-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 12px;
+  background: var(--bg-card-hover);
+  border-radius: 12px;
+  margin-bottom: 6px;
+  font-size: 0.9em;
+}
+.alert-icon { font-size: 1.2em; flex-shrink: 0; margin-top: 2px; }
+
+.overview-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.overview-card {
+  text-align: center;
+  padding: 16px 10px;
+  background: linear-gradient(135deg, var(--bg-card-hover), var(--bg-card));
+  border-radius: 16px;
+  border: 1px solid var(--border);
+}
+.overview-card .num {
+  font-size: 2em;
+  font-weight: 800;
+  color: var(--primary);
+}
+.overview-card .lbl { font-size: 0.8em; color: var(--text-secondary); }
+
+/* ========== Period Calendar ========== */
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.calendar-header button {
+  background: none;
+  border: none;
+  font-size: 1.3em;
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 10px;
+  color: var(--text);
+}
+.calendar-header button:hover { background: var(--bg-card-hover); }
+.calendar-title { font-weight: 700; font-size: 1.05em; }
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  text-align: center;
+}
+.calendar-day-header {
+  font-size: 0.8em;
+  font-weight: 600;
+  color: var(--text-secondary);
+  padding: 6px 0;
+}
+.calendar-day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 0.85em;
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+}
+.calendar-day:hover { background: var(--bg-card-hover); }
+.calendar-day.other-month { opacity: 0.3; }
+.calendar-day.today { border: 2px solid var(--primary); font-weight: 700; }
+.calendar-day.period { background: #ffb3c640; border-radius: 50%; }
+.calendar-day.period-start { background: var(--danger); color: #fff; border-radius: 50%; }
+.calendar-day.period-end { background: var(--primary-light); color: #fff; border-radius: 50%; }
+.calendar-day.ovulation { background: #ffb3d940; border-radius: 50%; box-shadow: 0 0 0 3px #ffb3d930; }
+.calendar-day.fertile { background: #ffd1e040; }
+.calendar-day.predicted { border: 2px dashed var(--primary); }
+
+.phase-info {
+  padding: 14px;
+  border-radius: 14px;
+  margin: 10px 0;
+  background: var(--bg-card-hover);
+  border-left: 4px solid var(--primary);
+}
+.phase-info .phase-name { font-weight: 700; color: var(--primary-dark); }
+.phase-info .phase-tip { font-size: 0.85em; color: var(--text-secondary); margin-top: 4px; }
+
+.record-list { max-height: 300px; overflow-y: auto; }
+.record-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.9em;
+}
+.record-item:last-child { border-bottom: none; }
+
+/* ========== Diet ========== */
+.diet-macro {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin: 12px 0;
+}
+.diet-macro-item {
+  text-align: center;
+  padding: 10px;
+  background: var(--bg-card-hover);
+  border-radius: 14px;
+}
+.progress-bar {
+  height: 10px;
+  background: var(--border);
+  border-radius: 5px;
+  overflow: hidden;
+  margin: 8px 0;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-light), var(--accent));
+  border-radius: 5px;
+  transition: width 0.6s ease;
+}
+.progress-fill.danger { background: linear-gradient(90deg, #ff8a80, var(--danger)); }
+.progress-fill.success { background: linear-gradient(90deg, #81c784, var(--success)); }
+
+.meal-section { margin-bottom: 14px; }
+.meal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+.meal-name { font-weight: 600; font-size: 0.95em; }
+.meal-cal { color: var(--text-secondary); font-size: 0.85em; }
+
+.food-list { list-style: none; }
+.food-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: 0.88em;
+  border-bottom: 1px dashed var(--border);
+}
+
+/* ========== Meal Calculator ========== */
+.meal-calc-textarea {
+  width: 100%;
+  min-height: 70px;
+  border: 2px dashed var(--border);
+  border-radius: 14px;
+  padding: 12px;
+  font-size: 0.9em;
+  font-family: inherit;
+  background: var(--bg);
+  color: var(--text);
+  resize: vertical;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+.meal-calc-textarea:focus {
+  border-color: var(--primary);
+  outline: none;
+}
+.meal-calc-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.meal-calc-result {
+  margin-top: 12px;
+  display: none;
+}
+.meal-calc-result.show { display: block; }
+.meal-calc-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 8px;
+  margin: 4px 0;
+  font-size: 0.85em;
+  background: var(--bg-card-hover);
+}
+.meal-calc-item .food-name { font-weight: 500; }
+.meal-calc-item .food-cal { color: var(--accent); font-weight: 600; }
+.meal-calc-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  margin-top: 8px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 0.95em;
+  background: var(--primary-light);
+  color: var(--text);
+}
+.meal-calc-no-match {
+  color: var(--text-secondary);
+  font-size: 0.8em;
+  font-style: italic;
+  padding: 4px 10px;
+}
+
+/* ========== Schedule Table (UNNC Style) ========== */
+.schedule-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82em;
+  table-layout: fixed;
+}
+.schedule-table th, .schedule-table td {
+  border: 1px solid var(--border);
+  text-align: center;
+  vertical-align: middle;
+}
+.schedule-table thead th {
+  background: var(--primary);
+  color: #fff;
+  font-weight: 700;
+  padding: 12px 4px;
+  font-size: 0.95em;
+  letter-spacing: 0.5px;
+}
+.schedule-table thead th:first-child {
+  background: var(--primary-dark);
+  font-size: 0.8em;
+}
+.time-label {
+  background: var(--bg-card-hover);
+  font-weight: 600;
+  padding: 8px 4px !important;
+  font-size: 0.78em;
+  color: var(--text-secondary);
+  width: 65px;
+}
+.time-label .time-end {
+  font-weight: 400;
+  font-size: 0.85em;
+  opacity: 0.6;
+}
+.schedule-table tbody td {
+  padding: 0;
+  height: 58px;
+  transition: background 0.2s;
+}
+.schedule-cell-empty {
+  background: var(--bg-card);
+}
+.schedule-cell-empty:hover {
+  background: var(--bg-card-hover);
+}
+.class-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 54px;
+  padding: 4px 3px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #fff;
+  font-weight: 500;
+  transition: transform 0.15s, box-shadow 0.15s;
+  position: relative;
+  overflow: hidden;
+}
+.class-block:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+  z-index: 2;
+}
+.class-code {
+  font-size: 0.85em;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  opacity: 0.9;
+}
+.class-name {
+  font-size: 0.75em;
+  margin-top: 1px;
+  opacity: 0.95;
+}
+.class-room {
+  font-size: 0.7em;
+  margin-top: 1px;
+  opacity: 0.7;
+}
+.class-block .class-delete {
+  position: absolute;
+  top: 2px;
+  right: 4px;
+  font-size: 0.65em;
+  opacity: 0;
+  transition: opacity 0.2s;
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+}
+.class-block:hover .class-delete {
+  opacity: 0.8;
+}
+
+.schedule-legend {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+  font-size: 0.75em;
+}
+.schedule-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.schedule-legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+/* ========== Todo ========== */
+.todo-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  transition: var(--transition);
+}
+.todo-item:hover { background: var(--bg-card-hover); }
+.todo-checkbox {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  cursor: pointer;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+.todo-checkbox.done {
+  background: var(--success);
+  border-color: var(--success);
+  color: #fff;
+  font-size: 0.7em;
+}
+.todo-text { flex: 1; font-size: 0.9em; }
+.todo-text.done { text-decoration: line-through; opacity: 0.5; }
+.todo-priority {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.todo-priority.high { background: var(--danger); }
+.todo-priority.medium { background: var(--warning); }
+.todo-priority.low { background: var(--success); }
+.todo-date { font-size: 0.75em; color: var(--text-secondary); flex-shrink: 0; }
+
+/* ========== Exam Countdown ========== */
+.exam-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  background: var(--bg-card-hover);
+  border-radius: 14px;
+  margin-bottom: 8px;
+}
+.exam-info .subject { font-weight: 600; font-size: 1em; }
+.exam-info .date { font-size: 0.8em; color: var(--text-secondary); }
+.countdown {
+  text-align: center;
+  min-width: 60px;
+}
+.countdown .days {
+  font-size: 1.6em;
+  font-weight: 800;
+  color: var(--accent);
+}
+.countdown .label { font-size: 0.7em; color: var(--text-secondary); }
+.countdown.urgent .days { color: var(--danger); }
+
+/* ========== Theme Picker ========== */
+.theme-picker {
+  display: flex;
+  gap: 10px;
+  margin: 12px 0;
+  flex-wrap: wrap;
+}
+.theme-btn {
+  padding: 10px 20px;
+  border-radius: 30px;
+  border: 2px solid var(--border);
+  cursor: pointer;
+  background: var(--bg-card);
+  font-weight: 600;
+  font-size: 0.9em;
+  transition: var(--transition);
+  font-family: inherit;
+}
+.theme-btn:hover { border-color: var(--primary); }
+.theme-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+.bg-picker {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+.bg-dot {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 3px solid transparent;
+  transition: var(--transition);
+}
+.bg-dot:hover { transform: scale(1.15); }
+.bg-dot.active { border-color: var(--primary); box-shadow: 0 0 0 4px var(--primary-light); }
+
+/* ========== Modal ========== */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+}
+.modal-overlay.show { display: flex; }
+.modal {
+  background: var(--bg-card);
+  border-radius: 20px;
+  padding: 24px;
+  max-width: 440px;
+  width: 90%;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+  animation: fadeIn 0.3s ease;
+}
+.modal h3 { margin-bottom: 16px; color: var(--primary-dark); }
+.modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px; }
+
+/* ========== Toast ========== */
+.toast {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--text);
+  color: var(--bg-card);
+  padding: 10px 24px;
+  border-radius: 30px;
+  font-size: 0.9em;
+  font-weight: 500;
+  z-index: 300;
+  animation: slideDown 0.3s ease;
+  pointer-events: none;
+}
+@keyframes slideDown {
+  from { transform: translateX(-50%) translateY(-60px); opacity: 0; }
+  to { transform: translateX(-50%) translateY(0); opacity: 1; }
+}
+
+/* ========== Footer ========== */
+.footer {
+  text-align: center;
+  padding: 20px 20px 30px;
+  color: var(--text-secondary);
+  font-size: 0.75em;
+  opacity: 0.6;
+}
+.footer .heart { color: var(--accent); }
+
+/* ========== Blind Box Animation ========== */
+.blindbox-container {
+  text-align: center;
+  padding: 20px 0;
+  position: relative;
+}
+.blindbox-btn {
+  font-size: 2.5em;
+  cursor: pointer;
+  background: none;
+  border: none;
+  transition: transform 0.3s;
+  animation: bounce 2s infinite;
+}
+.blindbox-btn:hover { transform: scale(1.2); }
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.blindbox-btn.shaking {
+  animation: shake 0.5s ease-in-out;
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0) rotate(0); }
+  25% { transform: translateX(-8px) rotate(-5deg); }
+  50% { transform: translateX(8px) rotate(5deg); }
+  75% { transform: translateX(-5px) rotate(-3deg); }
+}
+.blindbox-result {
+  margin-top: 14px;
+  padding: 16px;
+  border-radius: 16px;
+  background: var(--bg-card-hover);
+  border: 2px dashed var(--primary);
+  animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+@keyframes popIn {
+  from { transform: scale(0.3); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+.blindbox-sparkles {
+  position: absolute;
+  pointer-events: none;
+  font-size: 1.5em;
+  animation: sparkleUp 1s ease-out forwards;
+  opacity: 0;
+}
+@keyframes sparkleUp {
+  0% { transform: translateY(0) scale(1); opacity: 1; }
+  100% { transform: translateY(-60px) scale(0); opacity: 0; }
+}
+
+/* ========== Import Textarea ========== */
+.import-textarea {
+  width: 100%;
+  min-height: 140px;
+  font-family: monospace;
+  font-size: 0.85em;
+  padding: 10px;
+  border-radius: 12px;
+  border: 2px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text);
+  resize: vertical;
+}
+.import-textarea:focus { border-color: var(--primary); outline: none; }
+.import-hint {
+  font-size: 0.75em;
+  color: var(--text-secondary);
+  margin-top: 6px;
+  line-height: 1.6;
+}
+
+/* ========== Clothing Advice Card ========== */
+.clothing-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: var(--bg-card-hover);
+  border-radius: 14px;
+  margin-bottom: 6px;
+}
+.clothing-icon { font-size: 2em; }
+.uv-level {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 10px;
+  font-size: 0.8em;
+  font-weight: 600;
+  color: #fff;
+}
+
+/* ========== Music Player ========== */
+.music-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: var(--transition);
+  font-size: 0.85em;
+}
+.music-item:hover { background: var(--bg-card-hover); }
+.music-item.active { background: var(--primary-light); color: var(--primary-dark); }
+.music-item .music-name { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.music-item .music-del {
+  background: none;
+  border: none;
+  color: var(--danger);
+  cursor: pointer;
+  font-size: 1em;
+  padding: 2px 6px;
+  border-radius: 50%;
+  opacity: 0;
+  transition: var(--transition);
+}
+.music-item:hover .music-del { opacity: 1; }
+
+/* ========== Responsive ========== */
+@media (max-width: 600px) {
+  .header { padding: 10px 14px; }
+  .header-title { font-size: 1.1em; }
+  .card { padding: 16px; }
+  .calendar-day { font-size: 0.75em; }
+  .weather-grid { grid-template-columns: repeat(2, 1fr); }
+  .diet-macro { grid-template-columns: repeat(2, 1fr); }
+  .overview-grid { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .overview-card { padding: 12px 6px; }
+  .overview-card .num { font-size: 1.5em; }
+  .overview-card .lbl { font-size: 0.7em; }
+  .schedule-table { font-size: 0.7em; }
+  .schedule-table th, .schedule-table td { padding: 4px 2px; }
+  .bottom-nav-item { font-size: 0.62em; padding: 4px 6px; }
+  .bottom-nav-item .nav-icon { font-size: 1.3em; }
+}
+
+@media (max-width: 400px) {
+  .bottom-nav-item { font-size: 0.58em; padding: 3px 4px; }
+  .bottom-nav-item .nav-icon { font-size: 1.2em; }
+}
+</style>
+</head>
+<body data-theme="hellokitty" data-bg="0">
+
+<!-- ===== Header ===== -->
+<header class="header">
+  <span class="header-title" id="headerTitle">小暑条专属助手</span>
+  <button class="header-settings" onclick="App.navigateTo('settings')" title="设置">⚙️</button>
+</header>
+
+<!-- ===== Bottom Navigation ===== -->
+<nav class="bottom-nav" id="bottomNav">
+  <button class="bottom-nav-item active" data-page="dashboard">
+    <span class="nav-icon">🏠</span>
+    <span>首页</span>
+  </button>
+  <button class="bottom-nav-item" data-page="period">
+    <span class="nav-icon">📅</span>
+    <span>经期</span>
+  </button>
+  <button class="bottom-nav-item" data-page="diet">
+    <span class="nav-icon">🥗</span>
+    <span>饮食</span>
+  </button>
+  <button class="bottom-nav-item" data-page="schedule">
+    <span class="nav-icon">📚</span>
+    <span>课程</span>
+  </button>
+  <button class="bottom-nav-item" data-page="todo">
+    <span class="nav-icon">✅</span>
+    <span>待办</span>
+  </button>
+  <button class="bottom-nav-item" data-page="exam">
+    <span class="nav-icon">📝</span>
+    <span>考试</span>
+  </button>
+  <button class="bottom-nav-item" data-page="settings">
+    <span class="nav-icon">🎨</span>
+    <span>主题</span>
+  </button>
+</nav>
+
+<!-- ===== Toast Container ===== -->
+<div id="toastContainer"></div>
+
+<!-- ===== Main Content ===== -->
+<main class="container">
+
+<!-- ========== Dashboard Page ========== -->
+<section class="page active" id="page-dashboard">
+  <!-- Daily Quote -->
+  <div class="card">
+    <div class="card-title"><span class="icon">💬</span> 每日一句
+      <button class="quote-refresh" onclick="App.refreshQuote()" title="换一句" style="position:static;margin-left:auto">🔄</button>
+    </div>
+    <div class="quote-text" id="dailyQuote" style="font-size:1.1em;text-align:left;padding:0">加载中...</div>
+  </div>
+
+  <!-- Love Days Counter -->
+  <div class="love-days-card" id="loveDaysCard">
+    <div style="position:relative;z-index:1">
+      <div class="love-days-label">我们已经相遇</div>
+      <div class="love-days-num" id="loveDaysNum">--</div>
+      <div class="love-days-label">天</div>
+      <div class="love-days-since" id="loveDaysSince"></div>
+    </div>
+    
+    
+  </div>
+
+  <!-- Overview -->
+  <div class="card">
+    <div class="card-title"><span class="icon">📊</span> 今日概览</div>
+    <div class="overview-grid">
+      <div class="overview-card" onclick="App.navigateTo('todo')">
+        <div class="num" id="overviewTodos">0</div>
+        <div class="lbl">📋 待办</div>
+      </div>
+      <div class="overview-card" onclick="App.navigateTo('exam')">
+        <div class="num" id="overviewExams">0天</div>
+        <div class="lbl">📝 考试</div>
+      </div>
+      <div class="overview-card" onclick="App.navigateTo('period')">
+        <div class="num" id="overviewPeriod">--</div>
+        <div class="lbl">📅 预测</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Weather -->
+  <div class="card">
+    <div class="card-title"><span class="icon">🌤️</span> 今日天气 <span style="font-size:0.7em;color:var(--text-secondary)" id="weatherLocation"></span> <span style="margin-left:auto;font-size:0.8em;color:var(--primary);font-weight:600" id="weatherTodayDate"></span></div>
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+      <span style="font-size:3em" id="weatherIcon">⏳</span>
+      <div>
+        <div style="font-size:2em;font-weight:700" id="weatherTemp">--°C</div>
+        <div style="color:var(--text-secondary)" id="weatherDesc">获取中...</div>
+      </div>
+    </div>
+    <div class="weather-grid">
+      <div class="weather-item"><div class="val" id="weatherHumidity">--%</div><div class="lbl">💧 湿度</div></div>
+      <div class="weather-item"><div class="val" id="weatherWind">-- km/h</div><div class="lbl">💨 风速</div></div>
+      <div class="weather-item"><div class="val" id="weatherFeels">--°C</div><div class="lbl">🌡️ 体感</div></div>
+      <div class="weather-item"><div class="val" id="weatherUV">--</div><div class="lbl">☀️ 紫外线</div></div>
+    </div>
+    <div class="card-title" style="margin-top:14px"><span class="icon">👗</span> 穿衣建议</div>
+    <div id="clothingAdvice" style="font-size:0.9em"></div>
+    <div class="card-title" style="margin-top:14px"><span class="icon">☀️</span> 紫外线详情</div>
+    <div id="uvDetail" style="font-size:0.9em"></div>
+    <div class="card-title" style="margin-top:14px"><span class="icon">📋</span> 贴心提醒</div>
+    <div class="alert-list" id="weatherAlerts"></div>
+  </div>
+
+  <!-- Music Player -->
+  <div class="card">
+    <div class="card-title"><span class="icon">🎵</span> 音乐播放器 <span style="font-size:0.7em;color:var(--text-secondary)">本地上传音乐</span></div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+      <label class="btn btn-outline btn-sm" style="cursor:pointer;margin:0">📁 上传音乐
+        <input type="file" accept="audio/*" multiple style="display:none" onchange="MusicPlayer.uploadFiles(this)">
+      </label>
+      <span style="font-size:0.75em;color:var(--text-secondary)" id="musicCount">暂无音乐</span>
+    </div>
+    <div id="musicPlaylist" style="max-height:200px;overflow-y:auto;margin-bottom:10px"></div>
+    <div id="nowPlaying" style="display:none;background:var(--bg-card-hover);border-radius:14px;padding:12px;margin-bottom:8px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="font-size:2em" id="npIcon">🎶</span>
+        <div style="flex:1;min-width:0">
+          <div style="font-weight:600;font-size:0.9em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" id="npTitle">-</div>
+          <div style="font-size:0.75em;color:var(--text-secondary)" id="npTime">0:00 / 0:00</div>
+          <div class="progress-bar" style="margin:4px 0;cursor:pointer" id="musicProgressBar" onclick="MusicPlayer.seek(event)">
+            <div class="progress-fill" id="musicProgressFill" style="width:0%"></div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;justify-content:center;margin-top:8px">
+        <button class="btn btn-outline btn-xs" onclick="MusicPlayer.prev()">⏮</button>
+        <button class="btn btn-primary btn-sm" id="musicPlayBtn" onclick="MusicPlayer.togglePlay()">▶️ 播放</button>
+        <button class="btn btn-outline btn-xs" onclick="MusicPlayer.next()">⏭</button>
+        <button class="btn btn-outline btn-xs" onclick="MusicPlayer.stop()">⏹</button>
+      </div>
+    </div>
+    <audio id="musicAudio" style="display:none" ontimeupdate="MusicPlayer.onTimeUpdate()" onended="MusicPlayer.onEnded()"></audio>
+  </div>
+
+</section>
+
+<!-- ========== Period Page ========== -->
+<section class="page" id="page-period">
+  <!-- Phase Info -->
+  <div class="card">
+    <div class="card-title"><span class="icon">📅</span> 经期管理</div>
+    <div class="phase-info" id="phaseInfo">
+      <div class="phase-name" id="phaseName">--</div>
+      <div class="phase-tip" id="phaseTip">请先记录经期数据</div>
+    </div>
+    <button class="btn btn-primary" onclick="PeriodTracker.showAddModal()" style="margin-top:8px">➕ 记录经期</button>
+  </div>
+
+  <!-- Calendar -->
+  <div class="card">
+    <div class="calendar-header">
+      <button onclick="PeriodTracker.prevMonth()">◀</button>
+      <span class="calendar-title" id="calendarTitle"></span>
+      <button onclick="PeriodTracker.nextMonth()">▶</button>
+    </div>
+    <div class="calendar-grid" id="calendarGrid"></div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:10px;font-size:0.75em">
+      <span>🔴 经期</span><span>🟣 排卵期</span><span>🟡 易孕期</span><span>⬜ 预测经期</span>
+    </div>
+  </div>
+
+  <!-- Cycle Stats -->
+  <div class="card">
+    <div class="card-title"><span class="icon">📈</span> 周期统计</div>
+    <div class="weather-grid">
+      <div class="weather-item"><div class="val" id="statAvgCycle">-- 天</div><div class="lbl">平均周期</div></div>
+      <div class="weather-item"><div class="val" id="statAvgDuration">-- 天</div><div class="lbl">平均经期</div></div>
+      <div class="weather-item"><div class="val" id="statNextPeriod">--</div><div class="lbl">预测下次</div></div>
+      <div class="weather-item"><div class="val" id="statTotalRecords">0</div><div class="lbl">总记录数</div></div>
+    </div>
+  </div>
+
+  <!-- History -->
+  <div class="card">
+    <div class="card-title"><span class="icon">📋</span> 历史记录</div>
+    <div class="record-list" id="periodHistory"><div style="color:var(--text-secondary);text-align:center;padding:20px">暂无记录</div></div>
+  </div>
+</section>
+
+<!-- ========== Diet Page ========== -->
+<section class="page" id="page-diet">
+  <!-- Goal Settings -->
+  <div class="card">
+    <div class="card-title"><span class="icon">🎯</span> 减肥目标</div>
+    <div class="input-group">
+      <input type="number" class="input" id="dietGoalCal" placeholder="每日卡路里上限（如 1500）" style="max-width:200px">
+      <input type="number" class="input" id="dietGoalWeight" placeholder="目标体重 kg" style="max-width:200px">
+      <button class="btn btn-primary btn-sm" onclick="DietTracker.saveGoal()">💾 保存目标</button>
+    </div>
+    <div class="diet-macro">
+      <div class="diet-macro-item"><div style="font-weight:700;color:var(--primary)" id="dietGoalDisplay">--</div><div class="lbl" style="font-size:0.75em">目标/天</div></div>
+      <div class="diet-macro-item"><div style="font-weight:700" id="dietConsumed">0</div><div class="lbl" style="font-size:0.75em">已摄入</div></div>
+      <div class="diet-macro-item"><div style="font-weight:700;color:var(--success)" id="dietRemaining">--</div><div class="lbl" style="font-size:0.75em">剩余</div></div>
+      <div class="diet-macro-item"><div style="font-weight:700" id="dietTargetWeight">--</div><div class="lbl" style="font-size:0.75em">目标体重</div></div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="dietProgressBar" style="width:0%"></div></div>
+  </div>
+
+  <!-- Blind Box -->
+  <div class="card">
+    <div class="card-title"><span class="icon">🎁</span> 饮食盲盒 <span style="font-size:0.75em;color:var(--text-secondary)">根据你的口味习惯，随机推荐今日一餐</span></div>
+    <div class="blindbox-container" id="blindboxContainer">
+      <button class="blindbox-btn" id="blindboxBtn" onclick="DietTracker.openBlindBox()">🎁</button>
+      <div style="color:var(--text-secondary);font-size:0.85em">点我开盲盒，看看今天吃什么~</div>
+      <div id="blindboxResult"></div>
+    </div>
+    <div style="margin-top:12px;border-top:1px dashed var(--border);padding-top:12px">
+      <div style="font-size:0.85em;font-weight:600;margin-bottom:6px;color:var(--text-secondary)">🍲 常吃菜品（盲盒优先推荐）</div>
+      <div id="commonDishesList" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px"></div>
+      <div class="input-group" style="margin-bottom:0">
+        <input type="text" class="input" id="commonDishName" placeholder="菜名" style="max-width:150px">
+        <input type="number" class="input" id="commonDishCal" placeholder="kcal" style="max-width:80px" step="1">
+        <button class="btn btn-primary btn-xs" onclick="DietTracker.addCommonDish()">➕ 添加</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Brand Items Manager -->
+  <div class="card">
+    <div class="card-title"><span class="icon">📋</span> 自定义品牌菜单 <span style="font-size:0.75em;color:var(--text-secondary)">添加你常喝的品牌饮品/食物</span></div>
+    <div class="input-group">
+      <select class="input" id="customItemBrand" style="max-width:130px">
+        <option value="喜茶">喜茶</option><option value="星巴克">星巴克</option>
+        <option value="瑞幸">瑞幸</option><option value="茉莉奶白">茉莉奶白</option>
+        <option value="霸王茶姬">霸王茶姬</option>
+        <option value="Peets">Peets</option>
+        <option value="古茗">古茗</option><option value="茶百道">茶百道</option>
+        <option value="蜜雪冰城">蜜雪冰城</option><option value="奈雪的茶">奈雪的茶</option>
+        <option value="一点点">一点点</option><option value="Coco">Coco</option>
+        <option value="其他">其他</option>
+      </select>
+      <input type="text" class="input" id="customItemName" placeholder="品名（如：海盐焦糖拿铁）" style="max-width:200px">
+      <input type="number" class="input" id="customItemCal" placeholder="kcal" style="max-width:70px" step="1">
+      <button class="btn btn-primary btn-xs" onclick="DietTracker.addCustomItem()">➕ 添加</button>
+    </div>
+    <div id="customItemsList" style="margin-top:10px;display:flex;flex-wrap:wrap;gap:4px"></div>
+  </div>
+
+  <!-- Meal Calorie Calculator -->
+  <div class="card">
+    <div class="card-title"><span class="icon">💬</span> 菜单卡路里估算 <span style="font-size:0.75em;color:var(--text-secondary)">描述你吃的，帮你算热量</span></div>
+    <textarea class="meal-calc-textarea" id="mealCalcInput" placeholder="描述你今天吃了什么...&#10;例如：一碗米饭 + 一份红烧肉 + 一杯奶茶 + 一个苹果&#10;支持用 + 、, 和 等分隔"></textarea>
+    <div class="meal-calc-actions">
+      <button class="btn btn-primary btn-sm" onclick="DietTracker.calcMealCalories()">🔍 计算卡路里</button>
+      <select class="input" id="mealCalcMealType" style="max-width:120px">
+        <option value="breakfast">🌅 早餐</option>
+        <option value="lunch">☀️ 午餐</option>
+        <option value="morning_tea">🍵 上午茶</option>
+        <option value="dinner">🌙 晚餐</option>
+        <option value="afternoon_tea">🫖 下午茶</option>
+        <option value="snack">🍪 零食</option>
+      </select>
+      <button class="btn btn-outline btn-sm" id="mealCalcAddBtn" onclick="DietTracker.addCalcToMeal()" style="display:none">➕ 记录到饮食</button>
+    </div>
+    <div class="meal-calc-result" id="mealCalcResult"></div>
+  </div>
+
+  <!-- Today's Meals -->
+  <div class="card">
+    <div class="card-title"><span class="icon">🍽️</span> 今日饮食记录 <span style="font-size:0.75em;color:var(--text-secondary)" id="dietDate"></span></div>
+    <div id="mealsContainer">
+      <div class="meal-section">
+        <div class="meal-header"><span class="meal-name">🌅 早餐</span><span class="meal-cal" id="mealBreakfast">0 kcal</span></div>
+        <ul class="food-list" id="foodListBreakfast"></ul>
+        <button class="btn btn-outline btn-xs" onclick="DietTracker.showAddFoodModal('breakfast')">+ 添加食物</button>
+      </div>
+      <div class="meal-section">
+        <div class="meal-header"><span class="meal-name">☀️ 午餐</span><span class="meal-cal" id="mealLunch">0 kcal</span></div>
+        <ul class="food-list" id="foodListLunch"></ul>
+        <button class="btn btn-outline btn-xs" onclick="DietTracker.showAddFoodModal('lunch')">+ 添加食物</button>
+      </div>
+      <div class="meal-section">
+        <div class="meal-header"><span class="meal-name">🍵 上午茶</span><span class="meal-cal" id="mealMorningTea">0 kcal</span></div>
+        <ul class="food-list" id="foodListMorningTea"></ul>
+        <button class="btn btn-outline btn-xs" onclick="DietTracker.showAddFoodModal('morning_tea')">+ 添加食物/饮品</button>
+      </div>
+      <div class="meal-section">
+        <div class="meal-header"><span class="meal-name">🌙 晚餐</span><span class="meal-cal" id="mealDinner">0 kcal</span></div>
+        <ul class="food-list" id="foodListDinner"></ul>
+        <button class="btn btn-outline btn-xs" onclick="DietTracker.showAddFoodModal('dinner')">+ 添加食物</button>
+      </div>
+      <div class="meal-section">
+        <div class="meal-header"><span class="meal-name">🫖 下午茶</span><span class="meal-cal" id="mealAfternoonTea">0 kcal</span></div>
+        <ul class="food-list" id="foodListAfternoonTea"></ul>
+        <button class="btn btn-outline btn-xs" onclick="DietTracker.showAddFoodModal('afternoon_tea')">+ 添加食物/饮品</button>
+      </div>
+      <div class="meal-section">
+        <div class="meal-header"><span class="meal-name">🍪 零食</span><span class="meal-cal" id="mealSnack">0 kcal</span></div>
+        <ul class="food-list" id="foodListSnack"></ul>
+        <button class="btn btn-outline btn-xs" onclick="DietTracker.showAddFoodModal('snack')">+ 添加食物</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Weekly Stats -->
+  <div class="card">
+    <div class="card-title"><span class="icon">📊</span> 本周趋势</div>
+    <div id="weeklyChart" style="display:flex;align-items:flex-end;gap:6px;height:120px;padding:10px 0"></div>
+  </div>
+</section>
+
+<!-- ========== Schedule Page ========== -->
+<section class="page" id="page-schedule">
+  <div class="card">
+    <div class="card-title"><span class="icon">📚</span> 课程表 · UNNC
+      <div style="display:flex;gap:6px;margin-left:auto">
+        <button class="btn btn-outline btn-sm" onclick="ScheduleManager.showImportModal()">📥 导入</button>
+        <button class="btn btn-primary btn-sm" onclick="ScheduleManager.showAddModal()">➕ 添加</button>
+      </div>
+    </div>
+    <div style="overflow-x:auto">
+      <table class="schedule-table" id="scheduleTable">
+        <thead>
+          <tr><th>时间</th><th>周一</th><th>周二</th><th>周三</th><th>周四</th><th>周五</th></tr>
+        </thead>
+        <tbody id="scheduleBody"></tbody>
+      </table>
+    </div>
+    <div class="schedule-legend" id="scheduleLegend"></div>
+  </div>
+</section>
+
+<!-- ========== Todo Page ========== -->
+<section class="page" id="page-todo">
+  <div class="card">
+    <div class="card-title"><span class="icon">✅</span> 待办事项</div>
+    <div class="input-group">
+      <input type="text" class="input" id="todoInput" placeholder="添加新的待办事项..." onkeydown="if(event.key==='Enter')TodoManager.add()">
+      <select class="input" id="todoPriority" style="max-width:100px">
+        <option value="high">🔴 高</option>
+        <option value="medium" selected>🟡 中</option>
+        <option value="low">🟢 低</option>
+      </select>
+      <input type="date" class="input" id="todoDueDate" style="max-width:150px">
+      <button class="btn btn-primary btn-sm" onclick="TodoManager.add()">添加</button>
+    </div>
+    <div id="todoList"></div>
+  </div>
+</section>
+
+<!-- ========== Exam Page ========== -->
+<section class="page" id="page-exam">
+  <div class="card">
+    <div class="card-title"><span class="icon">📝</span> 考试日期</div>
+    <div class="input-group">
+      <input type="text" class="input" id="examSubject" placeholder="考试科目" style="max-width:200px">
+      <input type="date" class="input" id="examDate" style="max-width:160px">
+      <input type="text" class="input" id="examNotes" placeholder="备注（可选）" style="max-width:200px">
+      <button class="btn btn-primary btn-sm" onclick="ExamManager.add()">添加</button>
+    </div>
+    <div id="examList"></div>
+  </div>
+</section>
+
+<!-- ========== Settings Page ========== -->
+<section class="page" id="page-settings">
+  <div class="card">
+    <div class="card-title"><span class="icon">✨</span> 专属名称</div>
+    <div class="input-group">
+      <input type="text" class="input" id="appNameInput" placeholder="输入TA的名字（如：小暑条）" style="max-width:250px">
+      <button class="btn btn-primary btn-sm" onclick="SettingsManager.saveAppName()">💾 保存</button>
+    </div>
+    <div style="font-size:0.8em;color:var(--text-secondary);margin-top:4px">设置后页面标题会变成「XXX专属助手」</div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="icon">🎨</span> 主题风格</div>
+    <div class="theme-picker" id="themePicker">
+      <button class="theme-btn" data-theme="rilakkuma" onclick="ThemeManager.setTheme('rilakkuma')">🧸 轻松熊</button>
+      <button class="theme-btn" data-theme="kuromi" onclick="ThemeManager.setTheme('kuromi')">😈 库洛米</button>
+      <button class="theme-btn" data-theme="hellokitty" onclick="ThemeManager.setTheme('hellokitty')">🐱 Hello Kitty</button>
+    </div>
+    <div class="card-title" style="margin-top:16px"><span class="icon">🤝</span> 相遇纪念日</div>
+    <div class="input-group">
+      <input type="date" class="input" id="loveStartDateInput" style="max-width:200px">
+      <button class="btn btn-primary btn-sm" onclick="SettingsManager.saveLoveDate()">💾 保存</button>
+    </div>
+    <div style="font-size:0.8em;color:var(--text-secondary);margin-top:4px" id="loveDateStatus">设置你们相遇的日期，首页将显示已相遇多少天</div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="icon">📍</span> 天气设置</div>
+    <div class="input-group">
+      <input type="text" class="input" id="weatherCityInput" placeholder="输入城市名（可选）" style="max-width:250px">
+      <button class="btn btn-primary btn-sm" onclick="App.updateWeatherByCity()">🔍 查询</button>
+    </div>
+    <div style="font-size:0.8em;color:var(--text-secondary);margin-top:4px">默认使用浏览器定位，若定位失败可手动输入城市名</div>
+    <div style="font-size:0.8em;color:var(--text-secondary)">当前坐标: <span id="currentCoords">自动定位中...</span></div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  Made with 💫 for <span id="footerName">小暑条</span>
+</footer>
+
+<!-- ===== Add Record Modal ===== -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modalContent"></div>
+</div>
+
+<script>
+/* ========================================================================
+ * 专属助手 - 全功能 Web 应用
+ * ======================================================================== */
+
+// ==================== PWA Setup ====================
+(function() {
+  // Register Service Worker for offline support
+  if ('serviceWorker' in navigator) {
+    const swCode = `
+      const CACHE = 'zhushou-v2';
+      const URLS = [self.location.href];
+      self.addEventListener('install', e => {
+        e.waitUntil(caches.open(CACHE).then(c => c.addAll(URLS)));
+        self.skipWaiting();
+      });
+      self.addEventListener('activate', e => {
+        e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== CACHE).map(k => caches.delete(k)))));
+        self.clients.claim();
+      });
+      self.addEventListener('fetch', e => {
+        e.respondWith(caches.match(e.request).then(r => r || fetch(e.request).then(resp => {
+          if (resp.ok) { const clone = resp.clone(); caches.open(CACHE).then(c => c.put(e.request, clone)); }
+          return resp;
+        })));
+      });
+    `;
+    const swBlob = new Blob([swCode], { type: 'application/javascript' });
+    navigator.serviceWorker.register(URL.createObjectURL(swBlob));
+  }
+})();
+
+// Generate/update Web App Manifest (called on init and when name changes)
+function updatePWAManifest() {
+  const appName = typeof Store !== 'undefined' ? Store.getAppName() : '小暑条';
+  const title = appName + '专属助手';
+  const shortTitle = appName + '助手';
+  const manifest = {
+    name: title,
+    short_name: shortTitle,
+    description: '生活关怀、健康管理、学习辅助',
+    start_url: '.',
+    display: 'standalone',
+    background_color: '#fff5f7',
+    theme_color: '#ff7eb3',
+    orientation: 'portrait-primary',
+    icons: [{
+      src: 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192"><rect fill="#ff7eb3" width="192" height="192" rx="38"/><text x="96" y="118" text-anchor="middle" font-size="96">🌸</text></svg>'),
+      sizes: '192x192', type: 'image/svg+xml', purpose: 'any maskable'
+    }]
+  };
+  const existing = document.querySelector('link[rel="manifest"]');
+  if (existing) existing.remove();
+  const blob = new Blob([JSON.stringify(manifest)], { type: 'application/json' });
+  const link = document.createElement('link');
+  link.rel = 'manifest';
+  link.href = URL.createObjectURL(blob);
+  document.head.appendChild(link);
+}
+
+// ==================== Utility Functions ====================
+const $ = (sel) => document.querySelector(sel);
+const $$ = (sel) => document.querySelectorAll(sel);
+
+function fmtDate(d) {
+  if (typeof d === 'string') d = new Date(d + 'T00:00:00');
+  const y = d.getFullYear(), m = String(d.getMonth() + 1).padStart(2, '0'), day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+
+function parseDate(str) { return new Date(str + 'T00:00:00'); }
+
+function daysBetween(d1, d2) {
+  return Math.round((parseDate(d2) - parseDate(d1)) / 86400000);
+}
+
+function genId() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
+
+function showToast(msg) {
+  const t = document.createElement('div');
+  t.className = 'toast';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => { t.style.opacity = '0'; t.style.transition = 'opacity 0.3s'; setTimeout(() => t.remove(), 300); }, 2000);
+}
+
+// ==================== Data Store ====================
+const Store = {
+  get(key, fallback = null) {
+    try { const v = localStorage.getItem('gf_' + key); return v ? JSON.parse(v) : fallback; }
+    catch { return fallback; }
+  },
+  set(key, val) { localStorage.setItem('gf_' + key, JSON.stringify(val)); },
+
+  // Period
+  getPeriods() { return this.get('periods', []); },
+  setPeriods(v) { this.set('periods', v); },
+
+  // Diet
+  getDiet(date) { return this.get('diet_' + date, { breakfast: [], lunch: [], morning_tea: [], dinner: [], afternoon_tea: [], snack: [] }); },
+  setDiet(date, v) { this.set('diet_' + date, v); },
+  getDietGoal() { return this.get('diet_goal', { dailyCalories: 1500, targetWeight: 50 }); },
+  setDietGoal(v) { this.set('diet_goal', v); },
+  getAllDietDates() {
+    const dates = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key.startsWith('gf_diet_20')) dates.push(key.replace('gf_diet_', ''));
+    }
+    return dates.sort();
+  },
+
+  // Classes
+  getClasses() { return this.get('classes', []); },
+  setClasses(v) { this.set('classes', v); },
+
+  // Todos
+  getTodos() { return this.get('todos', []); },
+  setTodos(v) { this.set('todos', v); },
+
+  // Exams
+  getExams() { return this.get('exams', []); },
+  setExams(v) { this.set('exams', v); },
+
+  // Theme
+  getTheme() { return this.get('theme', 'hellokitty'); },
+  setTheme(v) { this.set('theme', v); },
+  getBg() { return this.get('theme_bg', 0); },
+  setBg(v) { this.set('theme_bg', v); },
+
+  // Common Dishes
+  getCommonDishes() { return this.get('common_dishes', []); },
+  setCommonDishes(v) { this.set('common_dishes', v); },
+
+  // Custom Brand Items (user-added food/drink items)
+  getCustomItems() { return this.get('custom_items', []); },
+  setCustomItems(v) { this.set('custom_items', v); },
+
+  // Love Date
+  getLoveDate() { return this.get('love_start_date', ''); },
+  setLoveDate(v) { this.set('love_start_date', v); },
+
+  getAppName() { return this.get('app_name', '小暑条'); },
+  setAppName(v) { this.set('app_name', v); },
+
+  // Weather cache
+  getWeather() { return this.get('weather_cache', null); },
+  setWeather(v) { this.set('weather_cache', v); },
+  getWeatherTS() { return this.get('weather_ts', 0); },
+  setWeatherTS(v) { this.set('weather_ts', v); },
+  getCoords() { return this.get('coords', null); },
+  setCoords(v) { this.set('coords', v); }
+};
+
+// ==================== Quote Library ====================
+const QUOTES = [
+  '你是我一生中最美的意外 🌸', '每天醒来，第一个想到的就是你 🌸',
+  '你的笑容，是我最大的动力 ✨', '有你在身边，每一天都是晴天 ☀️',
+  '世界上最幸福的事，就是和你相遇 🌟', '你就像星星一样，点亮了我的生活 ⭐',
+  '无论多远，我的心都在你那里 🌟', '你是我的软肋，也是我的铠甲 🛡️',
+  '生活因你而精彩，未来因你而可期 🌈', '遇见你，是我这辈子最幸运的事 🍀',
+  '你的眼睛里有星辰大海 🌊', '想和你一起看遍世间繁华 🌆',
+  '你就是我的小确幸 🌷', '每一天都想和你分享喜怒哀乐 📬',
+  '陪你走过春夏秋冬 🍂❄️🌸☀️', '你的每一个小习惯我都喜欢 🌷',
+  '做你的专属超人 🦸', '有你的地方就是家 🏠',
+  '你是我写过最美的诗句 📝', '想把全世界最好的都给你 🎁',
+  '你是独一无二的存在 💎', '今天的你也很可爱哦 🥳',
+  '和你一起的时光总是过得特别快 ⏰', '你是我的太阳，温暖又明亮 🌞',
+  '累了就靠在我肩膀上吧 🤗', '你的名字，我的心事 💭',
+  '不管未来怎样，我都会在你身边 🤝', '你就是我的全世界 🌍',
+  '今天也要元气满满哦 💪', '记得多喝水，照顾好自己 🥤',
+  '你值得世间所有美好 🌸', '晚安，明天又是爱你的一天 🌙',
+  '你的梦想，我都支持 🌟', '世界上最动听的声音，是你的笑声 😊',
+  '做自己就好，你本来就很美 ✨', '每一天都是新的开始，加油呀 🎀',
+  '你是我的人间理想 💫', '愿你的每一天都被温柔以待 🕊️',
+  '保持热爱，奔赴山海 ⛰️', '你是最棒的，要相信自己 🏆',
+  '生活明朗，万物可爱，你也一样 🌻', '不要熬夜哦，身体最重要 🛌',
+  '每一个不曾起舞的日子，都是对生命的辜负 💃', '你的努力，时间都看得见 👀',
+  '今天的不开心就到此为止，明天依然光芒万丈 🌅', '愿你眼中有光，心中有爱 ✨',
+  '最好的状态是未来可期 🔮', '慢慢来，比较快 🐢',
+  '你值得被爱，被珍惜 🌟', '每天进步一点点就很棒 📈',
+  '爱自己，是终身浪漫的开始 🌺', '你的存在就是美好的证明 🌺',
+];
+
+// ==================== Food Database ====================
+const FOOD_DB = [
+  { name: '米饭（100g）', cal: 116 }, { name: '馒头（1个）', cal: 223 }, { name: '面条（100g）', cal: 110 },
+  { name: '小米粥（1碗）', cal: 80 }, { name: '燕麦片（100g）', cal: 377 }, { name: '全麦面包（1片）', cal: 75 },
+  { name: '鸡蛋（1个煮）', cal: 72 }, { name: '煎蛋（1个）', cal: 120 }, { name: '鸡胸肉（100g）', cal: 133 },
+  { name: '牛肉（100g）', cal: 125 }, { name: '猪肉（100g）', cal: 395 }, { name: '鱼肉（100g）', cal: 100 },
+  { name: '虾仁（100g）', cal: 99 }, { name: '豆腐（100g）', cal: 76 }, { name: '豆浆（1杯）', cal: 35 },
+  { name: '牛奶（1杯）', cal: 120 }, { name: '酸奶（1杯）', cal: 100 }, { name: '苹果（1个）', cal: 85 },
+  { name: '香蕉（1根）', cal: 105 }, { name: '橙子（1个）', cal: 62 }, { name: '葡萄（100g）', cal: 69 },
+  { name: '草莓（100g）', cal: 32 }, { name: '西瓜（100g）', cal: 30 }, { name: '番茄（1个）', cal: 22 },
+  { name: '黄瓜（1根）', cal: 15 }, { name: '西兰花（100g）', cal: 34 }, { name: '菠菜（100g）', cal: 23 },
+  { name: '土豆（100g）', cal: 76 }, { name: '胡萝卜（1根）', cal: 41 }, { name: '玉米（1根）', cal: 112 },
+  { name: '紫薯（100g）', cal: 82 }, { name: '三文鱼（100g）', cal: 208 }, { name: '金枪鱼（100g）', cal: 132 },
+  { name: '奶茶（1杯）', cal: 350 }, { name: '可乐（1罐）', cal: 140 }, { name: '拿铁（1杯）', cal: 190 },
+  { name: '珍珠奶茶（1杯）', cal: 400 }, { name: '薯片（1包）', cal: 550 }, { name: '巧克力（1块）', cal: 250 },
+  { name: '蛋糕（1块）', cal: 300 }, { name: '冰淇淋（1球）', cal: 150 }, { name: '饼干（100g）', cal: 435 },
+  { name: '火锅（1人份）', cal: 800 }, { name: '麻辣烫（1碗）', cal: 500 }, { name: '炸鸡（1块）', cal: 280 },
+  { name: '饺子（10个）', cal: 350 }, { name: '包子（1个）', cal: 200 }, { name: '油条（1根）', cal: 230 },
+  { name: '炒饭（1碗）', cal: 400 }, { name: '拉面（1碗）', cal: 450 }, { name: '寿司（6个）', cal: 250 },
+  { name: '蜜汁鲜蔬牛肉卷（星巴克）', cal: 350 },
+];
+
+const DRINK_DB = [
+  // 喜茶 Heytea
+  { name: '多肉葡萄（喜茶）', cal: 280, brand: '喜茶' },
+  { name: '芝芝莓莓（喜茶）', cal: 260, brand: '喜茶' },
+  { name: '满杯红柚（喜茶）', cal: 180, brand: '喜茶' },
+  { name: '烤黑糖波波牛乳（喜茶）', cal: 380, brand: '喜茶' },
+  { name: '绿妍果茶（喜茶）', cal: 150, brand: '喜茶' },
+  { name: '芝芝芒芒（喜茶）', cal: 290, brand: '喜茶' },
+  { name: '纯绿妍（喜茶）', cal: 80, brand: '喜茶' },
+  { name: '满杯金菠萝（喜茶）', cal: 220, brand: '喜茶' },
+  // 星巴克 Starbucks
+  { name: '拿铁-中杯（星巴克）', cal: 190, brand: '星巴克' },
+  { name: '美式咖啡-中杯（星巴克）', cal: 15, brand: '星巴克' },
+  { name: '卡布奇诺-中杯（星巴克）', cal: 140, brand: '星巴克' },
+  { name: '抹茶拿铁-中杯（星巴克）', cal: 220, brand: '星巴克' },
+  { name: '焦糖玛奇朵-中杯（星巴克）', cal: 250, brand: '星巴克' },
+  { name: '星冰乐-中杯（星巴克）', cal: 320, brand: '星巴克' },
+  { name: '冷萃咖啡（星巴克）', cal: 10, brand: '星巴克' },
+  { name: '冰摇柠檬茶（星巴克）', cal: 120, brand: '星巴克' },
+  { name: '大溪地风情绵云冷萃（星巴克）', cal: 180, brand: '星巴克' },
+  // 瑞幸 Luckin
+  { name: '小黄油拿铁（瑞幸）', cal: 280, brand: '瑞幸' },
+  // 茉莉奶白
+  { name: '茉莉奶白（茉莉奶白）', cal: 200, brand: '茉莉奶白' },
+  { name: '白毫茉莉（茉莉奶白）', cal: 180, brand: '茉莉奶白' },
+  { name: '茉莉绿茶（茉莉奶白）', cal: 60, brand: '茉莉奶白' },
+  { name: '桂花茉莉（茉莉奶白）', cal: 190, brand: '茉莉奶白' },
+  { name: '茉莉柠檬茶（茉莉奶白）', cal: 130, brand: '茉莉奶白' },
+  // 霸王茶姬
+  { name: '伯牙绝弦（霸王茶姬）', cal: 210, brand: '霸王茶姬' },
+  { name: '寻香山茶（霸王茶姬）', cal: 190, brand: '霸王茶姬' },
+  { name: '花田乌龙（霸王茶姬）', cal: 220, brand: '霸王茶姬' },
+  { name: '桂馥兰香（霸王茶姬）', cal: 200, brand: '霸王茶姬' },
+  { name: '青青糯山（霸王茶姬）', cal: 180, brand: '霸王茶姬' },
+  { name: '橙香四季（霸王茶姬）', cal: 190, brand: '霸王茶姬' },
+  // Peet's Coffee 皮爷咖啡
+  { name: '抹茶拿铁（Peets）', cal: 220, brand: 'Peets' },
+];
+
+// ==================== App Controller ====================
+const App = {
+  currentPage: 'dashboard',
+
+  init() {
+    this.updateAppDisplay();
+    ThemeManager.init();
+    this.setupNavigation();
+    QuoteManager.init();
+    WeatherService.init();
+    PeriodTracker.init();
+    DietTracker.init();
+    ScheduleManager.init();
+    TodoManager.init();
+    ExamManager.init();
+    MusicPlayer.init();
+    this.refreshDashboard();
+  },
+
+  updateAppDisplay() {
+    const name = Store.getAppName();
+    const title = name + '专属助手';
+    document.title = title;
+    const headerTitle = $('#headerTitle');
+    if (headerTitle) headerTitle.textContent = title;
+    const footerName = $('#footerName');
+    if (footerName) footerName.textContent = name;
+    document.querySelector('meta[name="apple-mobile-web-app-title"]').content = name + '助手';
+    updatePWAManifest();
+  },
+
+  setupNavigation() {
+    $$('.bottom-nav-item').forEach(tab => {
+      tab.addEventListener('click', () => {
+        this.navigateTo(tab.dataset.page);
+      });
+    });
+  },
+
+  navigateTo(page) {
+    this.currentPage = page;
+    $$('.page').forEach(p => p.classList.remove('active'));
+    $$('.bottom-nav-item').forEach(t => t.classList.remove('active'));
+    const pageEl = $('#page-' + page);
+    if (pageEl) pageEl.classList.add('active');
+    const tabEl = document.querySelector(`.bottom-nav-item[data-page="${page}"]`);
+    if (tabEl) tabEl.classList.add('active');
+
+    // Auto-assign background per page (same theme, different bg)
+    const bgMap = { dashboard: '0', period: '1', diet: '2', schedule: '3', todo: '0', exam: '1', settings: '2' };
+    document.body.setAttribute('data-bg', bgMap[page] || '0');
+
+    if (page === 'dashboard') this.refreshDashboard();
+    if (page === 'period') PeriodTracker.render();
+    if (page === 'diet') DietTracker.render();
+    if (page === 'schedule') ScheduleManager.render();
+    if (page === 'todo') TodoManager.render();
+    if (page === 'exam') ExamManager.render();
+    if (page === 'settings') SettingsManager.render();
+  },
+
+  refreshDashboard() {
+    $('#dailyQuote').textContent = QuoteManager.getTodayQuote();
+    this.updateLoveDays();
+    this.updateWeatherDate();
+    this.refreshOverview();
+  },
+
+  updateLoveDays() {
+    const loveDate = Store.getLoveDate();
+    if (loveDate) {
+      const days = daysBetween(loveDate, fmtDate(new Date()));
+      $('#loveDaysNum').textContent = days;
+      $('#loveDaysSince').textContent = '从 ' + loveDate + ' 至今';
+    } else {
+      $('#loveDaysNum').textContent = '--';
+      $('#loveDaysSince').textContent = '去「主题」页面设置相遇日吧~';
+    }
+  },
+
+  updateWeatherDate() {
+    const now = new Date();
+    const weekDays = ['日', '一', '二', '三', '四', '五', '六'];
+    const str = now.getFullYear() + '年' + (now.getMonth() + 1) + '月' + now.getDate() + '日 星期' + weekDays[now.getDay()];
+    const el = $('#weatherTodayDate');
+    if (el) el.textContent = '📅 ' + str;
+  },
+
+  renderMiniCalendar() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth();
+    const today = fmtDate(now);
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const daysInPrevMonth = new Date(year, month, 0).getDate();
+
+    const records = Store.getPeriods();
+    const periodDays = new Set();
+    const predictedDays = new Set();
+    if (records.length > 0) {
+      const avgDuration = PeriodTracker.getAvgDuration(records) || 5;
+      records.forEach(r => {
+        const start = parseDate(r.startDate);
+        let end;
+        if (r.endDate) {
+          end = parseDate(r.endDate);
+        } else {
+          end = new Date(start.getTime() + (avgDuration - 1) * 86400000);
+        }
+        for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+          periodDays.add(fmtDate(d));
+        }
+      });
+      const prediction = PeriodTracker.getPrediction();
+      if (prediction) {
+        const predStart = parseDate(prediction);
+        for (let i = 0; i < avgDuration; i++) {
+          const d = new Date(predStart.getTime() + i * 86400000);
+          predictedDays.add(fmtDate(d));
+        }
+      }
+    }
+
+    $('#miniCalTitle').textContent = `${year}年 ${month + 1}月`;
+    const dayHeaders = ['日', '一', '二', '三', '四', '五', '六'];
+
+    let html = dayHeaders.map(d => `<div class="mini-day-header">${d}</div>`).join('');
+
+    for (let i = firstDay - 1; i >= 0; i--) {
+      const d = daysInPrevMonth - i;
+      html += `<div class="mini-day other-month">${d}</div>`;
+    }
+
+    for (let d = 1; d <= daysInMonth; d++) {
+      const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+      let cls = 'mini-day';
+      if (dateStr === today) cls += ' today';
+      if (periodDays.has(dateStr)) cls += ' period-dot';
+      else if (predictedDays.has(dateStr)) cls += ' period-dot';
+      html += `<div class="${cls}">${d}</div>`;
+    }
+
+    const totalCells = firstDay + daysInMonth;
+    const remaining = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7);
+    for (let d = 1; d <= remaining; d++) {
+      html += `<div class="mini-day other-month">${d}</div>`;
+    }
+
+    $('#miniCalendar').innerHTML = html;
+  },
+
+  refreshQuote() {
+    const q = QuoteManager.getRandomQuote();
+    $('#dailyQuote').textContent = q;
+    Store.set('today_quote', q);
+  },
+
+  refreshOverview() {
+    const todos = Store.getTodos().filter(t => !t.completed);
+    $('#overviewTodos').textContent = todos.length;
+
+    const now = new Date();
+    const exams = Store.getExams().filter(e => daysBetween(fmtDate(now), e.date) >= 0 && daysBetween(fmtDate(now), e.date) <= 30);
+    const nearestExam = exams.length > 0 ? exams.sort((a, b) => daysBetween(fmtDate(now), a.date) - daysBetween(fmtDate(now), b.date))[0] : null;
+    if (nearestExam) {
+      const d = daysBetween(fmtDate(now), nearestExam.date);
+      $('#overviewExams').textContent = (d <= 0 ? '今天' : d + '天');
+    } else {
+      $('#overviewExams').textContent = '0天';
+    }
+
+    const prediction = PeriodTracker.getPrediction();
+    if (prediction) {
+      const d = new Date(prediction + 'T00:00:00');
+      $('#overviewPeriod').textContent = (d.getMonth() + 1) + '月' + d.getDate() + '日';
+    } else {
+      $('#overviewPeriod').textContent = '--';
+    }
+  },
+
+  async updateWeatherByCity() {
+    const city = $('#weatherCityInput').value.trim();
+    if (!city) { showToast('请输入城市名或区县名'); return; }
+    try {
+      const geoRes = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=5&language=zh`);
+      const geoData = await geoRes.json();
+      if (!geoData.results || geoData.results.length === 0) { showToast('未找到该地点，请尝试输入更具体的地名（如：朝阳区、海淀区）'); return; }
+      // Pick most specific result (with admin info)
+      let best = geoData.results[0];
+      for (const r of geoData.results) {
+        if (r.admin2 || r.admin3) { best = r; break; }
+      }
+      const parts = [best.name];
+      if (best.admin2) parts.unshift(best.admin2);
+      if (best.admin1) parts.unshift(best.admin1);
+      const fullName = parts.join(' ');
+      Store.setCoords({ lat: best.latitude, lon: best.longitude, name: fullName, district: best.admin2 || best.name });
+      Store.setWeatherTS(0);
+      await WeatherService.fetch(best.latitude, best.longitude, fullName);
+      showToast('天气已更新：' + fullName);
+    } catch (e) {
+      showToast('获取天气失败，请检查网络');
+    }
+  }
+};
+
+// ==================== Quote Manager ====================
+const QuoteManager = {
+  init() {
+    const saved = Store.get('today_quote', '');
+    const today = fmtDate(new Date());
+    const savedDate = Store.get('quote_date', '');
+    if (savedDate !== today || !saved) {
+      const q = this.getRandomQuote();
+      Store.set('today_quote', q);
+      Store.set('quote_date', today);
+    }
+  },
+
+  getRandomQuote() {
+    return QUOTES[Math.floor(Math.random() * QUOTES.length)];
+  },
+
+  getTodayQuote() {
+    return Store.get('today_quote', QUOTES[0]);
+  }
+};
+
+// ==================== Weather Service ====================
+const WeatherService = {
+  init() {
+    const cached = Store.getWeather();
+    const ts = Store.getWeatherTS();
+    const now = Date.now();
+    if (cached && (now - ts) < 1800000) { // 30 min cache
+      this.display(cached);
+    } else {
+      this.getLocation();
+    }
+    this.updateTime();
+  },
+
+  getLocation() {
+    if (!navigator.geolocation) {
+      this.useDefault();
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      pos => {
+        Store.setCoords({ lat: pos.coords.latitude, lon: pos.coords.longitude });
+        this.fetch(pos.coords.latitude, pos.coords.longitude);
+      },
+      () => this.useDefault(),
+      { timeout: 10000 }
+    );
+  },
+
+  useDefault() {
+    const saved = Store.getCoords();
+    if (saved) {
+      this.fetch(saved.lat, saved.lon, saved.name);
+    } else {
+      // Default to Beijing
+      this.fetch(39.9042, 116.4074, '北京');
+    }
+  },
+
+  async fetch(lat, lon, name) {
+    try {
+      const res = await fetch(
+        `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,wind_speed_10m,weather_code,uv_index&timezone=auto`
+      );
+      const data = await res.json();
+      const weather = {
+        temp: data.current.temperature_2m,
+        humidity: data.current.relative_humidity_2m,
+        wind: data.current.wind_speed_10m,
+        feelsLike: data.current.apparent_temperature,
+        weatherCode: data.current.weather_code,
+        uv: data.current.uv_index,
+        location: name || '',
+        timestamp: Date.now()
+      };
+      Store.setWeather(weather);
+      Store.setWeatherTS(Date.now());
+      this.display(weather);
+    } catch (e) {
+      const cached = Store.getWeather();
+      if (cached) this.display(cached);
+      else this.displayError();
+    }
+  },
+
+  getWeatherDesc(code) {
+    const map = {
+      0: ['☀️', '晴天'], 1: ['🌤️', '大部晴朗'], 2: ['⛅', '多云'], 3: ['☁️', '阴天'],
+      45: ['🌫️', '雾'], 48: ['🌫️', '雾凇'], 51: ['🌦️', '小毛毛雨'], 53: ['🌦️', '毛毛雨'], 55: ['🌦️', '大毛毛雨'],
+      61: ['🌧️', '小雨'], 63: ['🌧️', '中雨'], 65: ['🌧️', '大雨'],
+      71: ['❄️', '小雪'], 73: ['❄️', '中雪'], 75: ['❄️', '大雪'],
+      80: ['🌦️', '阵雨'], 81: ['🌧️', '中阵雨'], 82: ['⛈️', '大阵雨'],
+      85: ['🌨️', '小阵雪'], 86: ['🌨️', '大阵雪'], 95: ['⛈️', '雷暴'], 96: ['⛈️', '冰雹雷暴'], 99: ['⛈️', '大冰雹雷暴']
+    };
+    return map[code] || ['🌈', '未知'];
+  },
+
+  getClothingAdvice(temp, code, wind) {
+    const isRain = [51,53,55,61,63,65,80,81,82,95,96,99].includes(code);
+    const isSnow = [71,73,75,85,86].includes(code);
+    let advice = { icon: '', top: '', bottom: '', accessory: '', tip: '' };
+
+    if (temp < -5) {
+      advice = { icon: '🧥', top: '厚羽绒服/棉大衣', bottom: '加绒棉裤/厚打底裤', accessory: '围巾🧣+手套🧤+帽子🎩+雪地靴👢', tip: '极寒天气，一定要全副武装再出门哦！' };
+    } else if (temp < 5) {
+      advice = { icon: '🧥', top: '羽绒服/厚棉衣+毛衣', bottom: '厚打底裤+长裤', accessory: '围巾🧣+手套🧤+棉鞋', tip: '天气寒冷，注意手脚保暖，暖宝宝可以贴起来~' };
+    } else if (temp < 12) {
+      advice = { icon: '🧣', top: '呢子大衣/薄羽绒+针织衫', bottom: '牛仔裤+薄打底裤', accessory: '围巾🧣+短靴', tip: '早晚较冷，建议洋葱式穿搭方便调节~' };
+    } else if (temp < 18) {
+      advice = { icon: '👔', top: '风衣/牛仔外套+长袖T恤/衬衫', bottom: '休闲长裤/长裙', accessory: '薄围巾/丝巾', tip: '温度舒适偏凉，带件薄外套以防变天~' };
+    } else if (temp < 24) {
+      advice = { icon: '👕', top: '薄外套/开衫+短袖/连衣裙', bottom: '九分裤/中长裙', accessory: '防晒帽👒', tip: '最舒适的温度，适合各种户外活动！' };
+    } else if (temp < 30) {
+      advice = { icon: '👗', top: '短袖T恤/吊带/连衣裙', bottom: '短裤/短裙/阔腿裤', accessory: '太阳镜🕶️+遮阳伞', tip: '夏日穿搭，选择透气面料更舒适~' };
+    } else {
+      advice = { icon: '🥵', top: '轻薄短袖/背心/吊带', bottom: '短裤/薄纱裙', accessory: '防晒衣+太阳镜🕶️+遮阳帽🧢', tip: '高温天气，穿浅色衣服更凉快，注意防暑！' };
+    }
+
+    if (isRain) {
+      advice.accessory += ' +雨伞☂️+防水鞋';
+      advice.tip += ' 记得带雨具哦~';
+    }
+    if (isSnow) {
+      advice.accessory += ' +防滑雪地靴';
+      advice.tip += ' 下雪天注意防滑！';
+    }
+    if (wind > 25) {
+      advice.accessory += ' +防风外套';
+      advice.tip += ' 大风天注意防风！';
+    }
+
+    return advice;
+  },
+
+  getUVDetail(uv) {
+    if (uv < 0) return { level: '--', color: '#999', text: '暂无数据', icon: '⚪', tip: '' };
+    if (uv <= 2) return { level: '低', color: '#66bb6a', text: '紫外线较弱', icon: '🟢', tip: '无需特殊防护，正常出行即可' };
+    if (uv <= 5) return { level: '中等', color: '#ffa726', text: '紫外线中等', icon: '🟡', tip: '建议涂抹SPF15+防晒霜，戴遮阳帽' };
+    if (uv <= 7) return { level: '较高', color: '#ef6c00', text: '紫外线较强', icon: '🟠', tip: '建议涂抹SPF30+防晒霜，避免正午暴晒，戴太阳镜' };
+    if (uv <= 10) return { level: '很强', color: '#ef5350', text: '紫外线很强', icon: '🔴', tip: '必须涂抹SPF50+防晒霜，尽量减少户外活动，做好全面防护' };
+    return { level: '极强', color: '#880e4f', text: '紫外线极强', icon: '⛔', tip: '尽量避免外出，如必须外出需全面防护+SPF50+' };
+  },
+
+  generateAlerts(weather) {
+    const alerts = [];
+    const temp = weather.temp;
+    const code = weather.weatherCode;
+    const wind = weather.wind;
+    const humidity = weather.humidity;
+    const uv = weather.uv;
+
+    if ([51,53,55,61,63,65,80,81,82,95,96,99].includes(code))
+      alerts.push({ icon: '🌂', text: '今天有雨，出门记得带伞哦！小雨的话也可以雨中漫步，别有一番浪漫~' });
+
+    if (wind > 20) alerts.push({ icon: '💨', text: `风速较大(${wind}km/h)，注意防风，建议扎起头发，避免穿宽松裙子~` });
+    if (humidity < 30) alerts.push({ icon: '💧', text: '空气干燥，记得多喝水补充水分，涂润肤露和润唇膏保护皮肤~' });
+    else if (humidity > 85) alerts.push({ icon: '💦', text: '湿度较高，体感可能偏闷，注意保持通风，衣服可能不容易干哦~' });
+
+    if (uv > 7) alerts.push({ icon: '🧴', text: `紫外线指数${uv}，属于很强级别，出门必须涂防晒霜，戴太阳镜和遮阳帽！` });
+    else if (uv > 5) alerts.push({ icon: '🧴', text: `紫外线指数${uv}，属于较高级别，建议涂防晒霜再出门~` });
+
+    if (temp >= 12 && temp <= 26 && !alerts.find(a => a.icon === '🌂') && wind < 15) {
+      alerts.push({ icon: '🌸', text: '天气宜人，非常适合户外活动，去公园散散步或者野餐吧~' });
+    }
+    if (temp > 32) alerts.push({ icon: '🥵', text: '高温预警！注意防暑降温，多喝水，避免中午出门，可备些藿香正气水~' });
+
+    return alerts;
+  },
+
+  display(weather) {
+    App.updateWeatherDate();
+    const [icon, desc] = this.getWeatherDesc(weather.weatherCode);
+    $('#weatherIcon').textContent = icon;
+    $('#weatherTemp').textContent = weather.temp + '°C';
+    $('#weatherDesc').textContent = desc;
+    $('#weatherHumidity').textContent = weather.humidity + '%';
+    $('#weatherWind').textContent = weather.wind + ' km/h';
+    $('#weatherFeels').textContent = weather.feelsLike + '°C';
+    $('#weatherUV').textContent = weather.uv >= 0 ? weather.uv : '--';
+    if (weather.location) $('#weatherLocation').textContent = '· ' + weather.location;
+    $('#currentCoords').textContent = weather.location || '自动定位';
+
+    // Clothing advice
+    const clothing = this.getClothingAdvice(weather.temp, weather.weatherCode, weather.wind);
+    $('#clothingAdvice').innerHTML = `
+      <div class="clothing-card">
+        <span class="clothing-icon">${clothing.icon}</span>
+        <div>
+          <div><strong>上装：</strong>${clothing.top}</div>
+          <div><strong>下装：</strong>${clothing.bottom}</div>
+          <div><strong>配饰：</strong>${clothing.accessory}</div>
+          <div style="color:var(--primary-dark);margin-top:2px;font-size:0.85em">💡 ${clothing.tip}</div>
+        </div>
+      </div>`;
+
+    // UV detail
+    const uvDetail = this.getUVDetail(weather.uv);
+    $('#uvDetail').innerHTML = `
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="font-size:2em">${uvDetail.icon}</span>
+        <div>
+          <div><strong>紫外线等级：</strong><span class="uv-level" style="background:${uvDetail.color}">${uvDetail.level}</span> ${uvDetail.text}</div>
+          <div style="color:var(--text-secondary);font-size:0.85em">${uvDetail.tip}</div>
+        </div>
+      </div>`;
+
+    // Alerts
+    const alerts = this.generateAlerts(weather);
+    $('#weatherAlerts').innerHTML = alerts.map(a =>
+      `<div class="alert-item"><span class="alert-icon">${a.icon}</span><span>${a.text}</span></div>`
+    ).join('');
+  },
+
+  displayError() {
+    $('#weatherIcon').textContent = '⚠️';
+    $('#weatherTemp').textContent = '--°C';
+    $('#weatherDesc').textContent = '天气获取失败，请检查网络或手动输入城市';
+  },
+
+  updateTime() {
+    setInterval(() => {
+      const ts = Store.getWeatherTS();
+      if (ts && (Date.now() - ts) > 1800000) {
+        const coords = Store.getCoords();
+        if (coords) this.fetch(coords.lat, coords.lon, coords.name);
+      }
+    }, 600000); // check every 10 min
+  }
+};
+
+// ==================== Period Tracker ====================
+const PeriodTracker = {
+  currentMonth: new Date().getMonth(),
+  currentYear: new Date().getFullYear(),
+  editingId: null,
+
+  init() {
+    this.render();
+  },
+
+  getPrediction() {
+    const records = Store.getPeriods();
+    if (records.length === 0) return null;
+    records.sort((a, b) => a.startDate.localeCompare(b.startDate));
+    const last = records[records.length - 1];
+    const avgCycle = this.getAvgCycle(records);
+    if (!avgCycle) return null;
+    const predicted = new Date(last.startDate + 'T00:00:00');
+    predicted.setDate(predicted.getDate() + avgCycle);
+    return fmtDate(predicted);
+  },
+
+  getAvgCycle(records) {
+    if (records.length < 2) return records.length === 1 ? 28 : null;
+    const sorted = [...records].sort((a, b) => a.startDate.localeCompare(b.startDate));
+    let total = 0, count = 0;
+    for (let i = 1; i < sorted.length; i++) {
+      const diff = daysBetween(sorted[i - 1].startDate, sorted[i].startDate);
+      if (diff > 0 && diff < 60) { total += diff; count++; }
+    }
+    return count > 0 ? Math.round(total / count) : 28;
+  },
+
+  getAvgDuration(records) {
+    if (records.length === 0) return null;
+    let total = 0, count = 0;
+    records.forEach(r => {
+      if (r.endDate) {
+        const d = daysBetween(r.startDate, r.endDate) + 1;
+        if (d > 0 && d < 14) { total += d; count++; }
+      }
+    });
+    return count > 0 ? Math.round(total / count) : 5;
+  },
+
+  getPhase(dateStr) {
+    const records = Store.getPeriods();
+    if (records.length === 0) return { name: '未记录', tip: '请先记录经期数据，系统将根据数据智能分析' };
+
+    records.sort((a, b) => a.startDate.localeCompare(b.startDate));
+    const date = parseDate(dateStr);
+    const avgCycle = this.getAvgCycle(records) || 28;
+    const avgDuration = this.getAvgDuration(records) || 5;
+
+    // Check against each record
+    for (const r of records) {
+      const start = parseDate(r.startDate);
+      if (r.endDate) {
+        const end = parseDate(r.endDate);
+        if (date >= start && date <= end) {
+          return {
+            name: '🔴 经期中',
+            tip: `经期注意事项：\n• 注意保暖，尤其是腹部\n• 避免生冷辛辣食物\n• 多喝温水或红糖姜茶\n• 适当休息，避免剧烈运动\n• 保持心情愉快\n• 可适量补充铁质食物`
+          };
+        }
+      } else {
+        // If no end date, assume 5 days
+        const assumedEnd = new Date(start);
+        assumedEnd.setDate(assumedEnd.getDate() + avgDuration - 1);
+        if (date >= start && date <= assumedEnd) {
+          return {
+            name: '🔴 经期中（预估）',
+            tip: '经期注意事项：\n• 注意保暖，尤其是腹部\n• 避免生冷辛辣食物\n• 多喝温水或红糖姜茶\n• 适当休息，避免剧烈运动\n• 保持心情愉快'
+          };
+        }
+      }
+    }
+
+    // Calculate relative to last period
+    const lastRecord = records[records.length - 1];
+    const lastStart = parseDate(lastRecord.startDate);
+    const lastEnd = lastRecord.endDate ? parseDate(lastRecord.endDate) : new Date(lastStart.getTime() + (avgDuration - 1) * 86400000);
+    const daysSinceStart = daysBetween(fmtDate(lastStart), dateStr);
+    const cycleDay = daysSinceStart + 1;
+
+    if (cycleDay <= avgDuration) {
+      return { name: '🔴 经期中（预测）', tip: '注意休息，多喝温水~' };
+    }
+
+    const ovulationDay = avgCycle - 14;
+    const fertileStart = ovulationDay - 4;
+    const fertileEnd = ovulationDay + 1;
+
+    if (cycleDay >= fertileStart && cycleDay <= fertileEnd) {
+      if (Math.abs(cycleDay - ovulationDay) <= 1) {
+        return {
+          name: '🟣 排卵期',
+          tip: '• 此阶段精力较旺盛\n• 适合进行运动锻炼\n• 注意私处卫生\n• 可能会有轻微腹部不适\n• 保持良好作息'
+        };
+      }
+      return {
+        name: '🟡 易孕期',
+        tip: '• 接近排卵期，精力逐渐回升\n• 适合安排重要工作\n• 保持规律作息\n• 饮食清淡，多补充蛋白质'
+      };
+    }
+
+    if (cycleDay > fertileEnd && cycleDay <= avgCycle) {
+      return {
+        name: '🟠 黄体期',
+        tip: '• 可能出现经前综合征（PMS）\n• 情绪波动属正常现象\n• 减少咖啡因和盐分摄入\n• 适当补充维生素B6和镁\n• 保证充足睡眠\n• 可以吃些黑巧克力缓解情绪'
+      };
+    }
+
+    return {
+      name: '🟢 卵泡期',
+      tip: '• 经期刚结束，身体逐渐恢复\n• 新陈代谢加快，适合开始新计划\n• 皮肤状态较好\n• 适合进行有氧运动\n• 注意营养均衡'
+    };
+  },
+
+  render() {
+    this.renderCalendar();
+    this.renderStats();
+    this.renderHistory();
+  },
+
+  renderCalendar() {
+    const year = this.currentYear, month = this.currentMonth;
+    $('#calendarTitle').textContent = `${year}年 ${month + 1}月`;
+
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const daysInPrevMonth = new Date(year, month, 0).getDate();
+
+    const records = Store.getPeriods();
+    const today = fmtDate(new Date());
+    const avgCycle = this.getAvgCycle(records) || 28;
+    const avgDuration = this.getAvgDuration(records) || 5;
+
+    // Build date markers
+    const periodDays = new Set(); // in-period days
+    const periodStarts = new Set();
+    const periodEnds = new Set();
+    const ovulationDays = new Set();
+    const fertileDays = new Set();
+
+    records.forEach((r, idx) => {
+      const start = parseDate(r.startDate);
+      periodStarts.add(fmtDate(start));
+
+      let end;
+      if (r.endDate) {
+        end = parseDate(r.endDate);
+        periodEnds.add(fmtDate(end));
+      } else {
+        end = new Date(start.getTime() + (avgDuration - 1) * 86400000);
+      }
+
+      for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+        periodDays.add(fmtDate(d));
+      }
+
+      // Calculate ovulation for this cycle
+      const ovulationDate = new Date(start);
+      ovulationDate.setDate(ovulationDate.getDate() + avgCycle - 14);
+      if (idx < records.length) {
+        ovulationDays.add(fmtDate(ovulationDate));
+        // Fertile window
+        for (let i = -4; i <= 1; i++) {
+          const fd = new Date(ovulationDate);
+          fd.setDate(fd.getDate() + i);
+          if (i !== 0) fertileDays.add(fmtDate(fd));
+        }
+      }
+    });
+
+    // Predicted next period
+    const predictedDays = new Set();
+    const prediction = this.getPrediction();
+    if (prediction) {
+      const predDate = parseDate(prediction);
+      predictedDays.add(prediction);
+      for (let i = 1; i < avgDuration; i++) {
+        const pd = new Date(predDate);
+        pd.setDate(pd.getDate() + i);
+        predictedDays.add(fmtDate(pd));
+      }
+    }
+
+    let html = '<div class="calendar-day-header">日</div><div class="calendar-day-header">一</div><div class="calendar-day-header">二</div><div class="calendar-day-header">三</div><div class="calendar-day-header">四</div><div class="calendar-day-header">五</div><div class="calendar-day-header">六</div>';
+
+    // Prev month days
+    for (let i = firstDay - 1; i >= 0; i--) {
+      const d = daysInPrevMonth - i;
+      const dateStr = `${year}-${String(month === 0 ? 12 : month).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+      html += `<div class="calendar-day other-month">${d}</div>`;
+    }
+
+    // Current month days
+    for (let d = 1; d <= daysInMonth; d++) {
+      const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+      let cls = 'calendar-day';
+      if (dateStr === today) cls += ' today';
+      if (periodStarts.has(dateStr)) cls += ' period-start';
+      else if (periodEnds.has(dateStr)) cls += ' period-end';
+      else if (periodDays.has(dateStr)) cls += ' period';
+      if (ovulationDays.has(dateStr)) cls += ' ovulation';
+      if (fertileDays.has(dateStr)) cls += ' fertile';
+      if (predictedDays.has(dateStr)) cls += ' predicted';
+      html += `<div class="${cls}" data-date="${dateStr}" onclick="PeriodTracker.onDayClick('${dateStr}')">${d}</div>`;
+    }
+
+    // Next month days (fill remaining)
+    const remaining = 7 - ((firstDay + daysInMonth) % 7);
+    if (remaining < 7) {
+      for (let d = 1; d <= remaining; d++) {
+        html += `<div class="calendar-day other-month">${d}</div>`;
+      }
+    }
+
+    $('#calendarGrid').innerHTML = html;
+
+    // Phase info
+    const phase = this.getPhase(today);
+    $('#phaseName').textContent = phase.name;
+    $('#phaseTip').textContent = phase.tip;
+  },
+
+  onDayClick(dateStr) {
+    const records = Store.getPeriods();
+    const existing = records.find(r => r.startDate === dateStr);
+    if (existing) {
+      this.editingId = existing.id;
+      this.showAddModal(existing);
+    }
+  },
+
+  prevMonth() {
+    if (this.currentMonth === 0) { this.currentMonth = 11; this.currentYear--; }
+    else this.currentMonth--;
+    this.renderCalendar();
+  },
+
+  nextMonth() {
+    if (this.currentMonth === 11) { this.currentMonth = 0; this.currentYear++; }
+    else this.currentMonth++;
+    this.renderCalendar();
+  },
+
+  renderStats() {
+    const records = Store.getPeriods();
+    const avgCycle = this.getAvgCycle(records);
+    const avgDuration = this.getAvgDuration(records);
+    const prediction = this.getPrediction();
+
+    $('#statAvgCycle').textContent = avgCycle ? avgCycle + ' 天' : '-- 天';
+    $('#statAvgDuration').textContent = avgDuration ? avgDuration + ' 天' : '-- 天';
+    $('#statNextPeriod').textContent = prediction || '--';
+    $('#statTotalRecords').textContent = records.length;
+  },
+
+  renderHistory() {
+    const records = Store.getPeriods();
+    if (records.length === 0) {
+      $('#periodHistory').innerHTML = '<div style="color:var(--text-secondary);text-align:center;padding:20px">暂无记录</div>';
+      return;
+    }
+    records.sort((a, b) => b.startDate.localeCompare(a.startDate));
+    $('#periodHistory').innerHTML = records.map(r => {
+      const duration = r.endDate ? (daysBetween(r.startDate, r.endDate) + 1) + ' 天' : '进行中';
+      return `<div class="record-item">
+        <div>
+          <strong>${r.startDate}</strong> → ${r.endDate || '进行中'}
+          <span style="color:var(--text-secondary);font-size:0.8em"> | ${duration}</span>
+          ${r.flow ? `<span style="font-size:0.8em"> | 量: ${r.flow}</span>` : ''}
+          ${r.symptoms ? `<br><span style="font-size:0.78em;color:var(--text-secondary)">${r.symptoms}</span>` : ''}
+        </div>
+        <div style="display:flex;gap:4px">
+          <button class="btn btn-outline btn-xs" onclick="PeriodTracker.showEditModal('${r.id}')">✏️</button>
+          <button class="btn btn-danger btn-xs" onclick="PeriodTracker.deleteRecord('${r.id}')">🗑️</button>
+        </div>
+      </div>`;
+    }).join('');
+  },
+
+  showAddModal(preset) {
+    this.editingId = preset ? preset.id : null;
+    const html = `
+      <h3>${preset ? '编辑经期记录' : '记录经期'}</h3>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <label>开始日期</label>
+        <input type="date" class="input" id="modalPeriodStart" value="${preset ? preset.startDate : fmtDate(new Date())}">
+        <label>结束日期（选填，默认5天）</label>
+        <input type="date" class="input" id="modalPeriodEnd" value="${preset && preset.endDate ? preset.endDate : ''}">
+        <label>经血量</label>
+        <select class="input" id="modalPeriodFlow">
+          <option value="light" ${preset && preset.flow === 'light' ? 'selected' : ''}>少</option>
+          <option value="medium" ${preset && preset.flow === 'medium' ? 'selected' : ''} selected>正常</option>
+          <option value="heavy" ${preset && preset.flow === 'heavy' ? 'selected' : ''}>多</option>
+        </select>
+        <label>症状（选填）</label>
+        <input type="text" class="input" id="modalPeriodSymptoms" placeholder="如：腹痛、腰酸、头痛..." value="${preset ? preset.symptoms || '' : ''}">
+        <label>备注（选填）</label>
+        <input type="text" class="input" id="modalPeriodNotes" placeholder="其他备注..." value="${preset ? preset.notes || '' : ''}">
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-outline btn-sm" onclick="PeriodTracker.closeModal()">取消</button>
+        <button class="btn btn-primary btn-sm" onclick="PeriodTracker.save()">💾 保存</button>
+      </div>`;
+    $('#modalContent').innerHTML = html;
+    $('#modalOverlay').classList.add('show');
+  },
+
+  showEditModal(id) {
+    const records = Store.getPeriods();
+    const record = records.find(r => r.id === id);
+    if (record) this.showAddModal(record);
+  },
+
+  closeModal() {
+    $('#modalOverlay').classList.remove('show');
+    this.editingId = null;
+  },
+
+  save() {
+    const startDate = $('#modalPeriodStart').value;
+    const endDate = $('#modalPeriodEnd').value || '';
+    const flow = $('#modalPeriodFlow').value;
+    const symptoms = $('#modalPeriodSymptoms').value.trim();
+    const notes = $('#modalPeriodNotes').value.trim();
+
+    if (!startDate) { showToast('请选择开始日期'); return; }
+
+    const records = Store.getPeriods();
+
+    if (this.editingId) {
+      const idx = records.findIndex(r => r.id === this.editingId);
+      if (idx >= 0) {
+        records[idx] = { ...records[idx], startDate, endDate, flow, symptoms, notes };
+      }
+    } else {
+      records.push({ id: genId(), startDate, endDate, flow, symptoms, notes });
+    }
+
+    Store.setPeriods(records);
+    this.closeModal();
+    this.render();
+    App.refreshOverview();
+    showToast('经期记录已保存 📋');
+  },
+
+  deleteRecord(id) {
+    if (!confirm('确定删除这条记录吗？')) return;
+    const records = Store.getPeriods().filter(r => r.id !== id);
+    Store.setPeriods(records);
+    this.render();
+    App.refreshOverview();
+    showToast('记录已删除');
+  }
+};
+
+// ==================== Diet Tracker ====================
+const DietTracker = {
+  currentMealType: null,
+
+  init() {
+    const goal = Store.getDietGoal();
+    $('#dietGoalCal').value = goal.dailyCalories;
+    $('#dietGoalWeight').value = goal.targetWeight;
+    this.render();
+  },
+
+  saveGoal() {
+    const dailyCalories = parseInt($('#dietGoalCal').value) || 1500;
+    const targetWeight = parseFloat($('#dietGoalWeight').value) || 50;
+    Store.setDietGoal({ dailyCalories, targetWeight });
+    this.render();
+    showToast('减肥目标已保存 🎯');
+  },
+
+  render() {
+    const today = fmtDate(new Date());
+    $('#dietDate').textContent = '· ' + today;
+
+    const goal = Store.getDietGoal();
+    const diet = Store.getDiet(today);
+    let totalCal = 0;
+
+    const meals = [
+      { key: 'breakfast', listId: 'foodListBreakfast', mealId: 'mealBreakfast' },
+      { key: 'lunch', listId: 'foodListLunch', mealId: 'mealLunch' },
+      { key: 'morning_tea', listId: 'foodListMorningTea', mealId: 'mealMorningTea' },
+      { key: 'dinner', listId: 'foodListDinner', mealId: 'mealDinner' },
+      { key: 'afternoon_tea', listId: 'foodListAfternoonTea', mealId: 'mealAfternoonTea' },
+      { key: 'snack', listId: 'foodListSnack', mealId: 'mealSnack' },
+    ];
+
+    meals.forEach(({ key: meal, listId, mealId }) => {
+      const foods = diet[meal] || [];
+      let mealCal = 0;
+      foods.forEach(f => mealCal += (f.calories || 0) * (f.amount || 1));
+      totalCal += mealCal;
+
+      $('#' + listId).innerHTML = foods.length === 0
+        ? '<li style="color:var(--text-secondary);font-size:0.8em">暂无记录</li>'
+        : foods.map((f, i) => `<li>
+            <span>${f.name} ${f.amount > 1 ? 'x' + f.amount : ''}</span>
+            <span>${f.calories * (f.amount || 1)} kcal
+            <button class="btn btn-xs" style="color:var(--danger);padding:0 4px;font-size:0.7em;background:none" onclick="DietTracker.removeFood('${meal}', ${i})">✕</button></span>
+          </li>`).join('');
+
+      $('#' + mealId).textContent = mealCal + ' kcal';
+    });
+
+    const remaining = goal.dailyCalories - totalCal;
+    const pct = Math.min(100, Math.round((totalCal / goal.dailyCalories) * 100));
+
+    $('#dietGoalDisplay').textContent = goal.dailyCalories + ' kcal';
+    $('#dietConsumed').textContent = totalCal + ' kcal';
+    $('#dietRemaining').textContent = Math.max(0, remaining) + ' kcal';
+    $('#dietRemaining').style.color = remaining < 0 ? 'var(--danger)' : 'var(--success)';
+    $('#dietTargetWeight').textContent = goal.targetWeight + ' kg';
+
+    const bar = $('#dietProgressBar');
+    bar.style.width = pct + '%';
+    bar.className = 'progress-fill';
+    if (pct > 100) bar.classList.add('danger');
+    else if (pct < 80) bar.classList.add('success');
+
+    this.renderWeeklyChart();
+    this.renderCommonDishes();
+    this.renderCustomItems();
+    App.refreshOverview();
+  },
+
+  renderCommonDishes() {
+    const dishes = Store.getCommonDishes();
+    const list = $('#commonDishesList');
+    if (list) {
+      list.innerHTML = dishes.length === 0
+        ? '<span style="font-size:0.78em;color:var(--text-secondary)">暂无，添加常吃菜品吧~</span>'
+        : dishes.map((d, i) => `<span style="background:var(--bg-card-hover);padding:4px 10px;border-radius:15px;font-size:0.8em;display:inline-flex;align-items:center;gap:4px">
+            ${d.name} <small style="color:var(--text-secondary)">${d.cal}kcal</small>
+            <button style="background:none;border:none;cursor:pointer;font-size:0.9em;padding:0 2px;color:var(--danger)" onclick="DietTracker.removeCommonDish(${i})">×</button>
+          </span>`).join('');
+    }
+  },
+
+  addCommonDish() {
+    const name = $('#commonDishName').value.trim();
+    const cal = parseInt($('#commonDishCal').value) || 0;
+    if (!name) { showToast('请输入菜名'); return; }
+    if (cal <= 0) { showToast('请输入卡路里'); return; }
+    const dishes = Store.getCommonDishes();
+    dishes.push({ name, cal });
+    Store.setCommonDishes(dishes);
+    $('#commonDishName').value = '';
+    $('#commonDishCal').value = '';
+    this.renderCommonDishes();
+    showToast('常吃菜品已添加 🍲');
+  },
+
+  removeCommonDish(index) {
+    const dishes = Store.getCommonDishes();
+    dishes.splice(index, 1);
+    Store.setCommonDishes(dishes);
+    this.renderCommonDishes();
+  },
+
+  // ===== Custom Brand Items =====
+  renderCustomItems() {
+    const items = Store.getCustomItems();
+    const list = $('#customItemsList');
+    if (list) {
+      if (items.length === 0) {
+        list.innerHTML = '<span style="font-size:0.78em;color:var(--text-secondary)">暂无自定义品牌菜单，添加你常喝的饮品吧~</span>';
+        return;
+      }
+      // Group by brand
+      const grouped = {};
+      items.forEach((item, i) => {
+        const brand = item.brand || '其他';
+        if (!grouped[brand]) grouped[brand] = [];
+        grouped[brand].push({ ...item, idx: i });
+      });
+      list.innerHTML = Object.entries(grouped).map(([brand, its]) =>
+        `<div style="width:100%;margin-bottom:4px">
+          <span style="font-weight:600;font-size:0.75em;color:var(--primary)">${brand}</span>
+          ${its.map(it => `<span style="background:var(--bg-card-hover);padding:2px 8px;border-radius:12px;font-size:0.78em;display:inline-flex;align-items:center;gap:3px;margin:2px 4px">
+            ${it.name} <small style="color:var(--text-secondary)">${it.cal}kcal</small>
+            <button style="background:none;border:none;cursor:pointer;font-size:0.85em;padding:0 2px;color:var(--danger);line-height:1" onclick="DietTracker.removeCustomItem(${it.idx})">×</button>
+          </span>`).join('')}
+        </div>`
+      ).join('');
+    }
+  },
+
+  addCustomItem() {
+    const brand = $('#customItemBrand').value.trim();
+    const name = $('#customItemName').value.trim();
+    const cal = parseInt($('#customItemCal').value) || 0;
+    if (!name) { showToast('请输入品名'); return; }
+    if (cal <= 0) { showToast('请输入卡路里'); return; }
+    const items = Store.getCustomItems();
+    items.push({ brand, name, cal });
+    Store.setCustomItems(items);
+    $('#customItemName').value = '';
+    $('#customItemCal').value = '';
+    this.renderCustomItems();
+    showToast('已添加自定义菜单 ✅');
+  },
+
+  removeCustomItem(index) {
+    const items = Store.getCustomItems();
+    items.splice(index, 1);
+    Store.setCustomItems(items);
+    this.renderCustomItems();
+  },
+
+  // Helper: get merged food DB (built-in + custom)
+  getMergedFoodDB() {
+    const custom = Store.getCustomItems();
+    return [...FOOD_DB, ...DRINK_DB, ...custom.map(c => ({ name: c.name + '（' + c.brand + '）', cal: c.cal, brand: c.brand }))];
+  },
+
+  showAddFoodModal(mealType) {
+    this.currentMealType = mealType;
+    const mealNames = { breakfast: '🌅 早餐', lunch: '☀️ 午餐', morning_tea: '🍵 上午茶', dinner: '🌙 晚餐', afternoon_tea: '🫖 下午茶', snack: '🍪 零食' };
+    const isTeaTime = mealType === 'morning_tea' || mealType === 'afternoon_tea';
+    const allFoods = this.getMergedFoodDB();
+    const foodOptions = allFoods.map(f => `<option value="${f.name}">${f.name} (${f.cal} kcal)${f.brand ? ' [' + f.brand + ']' : ''}</option>`).join('');
+    const drinkQuickBtns = isTeaTime ? `
+      <div style="margin-bottom:8px">
+        <label style="font-size:0.85em;color:var(--text-secondary)">🍹 快捷饮品品牌</label>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px">
+          <button type="button" class="btn btn-xs btn-outline" onclick="DietTracker.filterByBrand('喜茶')">喜茶</button>
+          <button type="button" class="btn btn-xs btn-outline" onclick="DietTracker.filterByBrand('星巴克')">星巴克</button>
+          <button type="button" class="btn btn-xs btn-outline" onclick="DietTracker.filterByBrand('茉莉奶白')">茉莉奶白</button>
+          <button type="button" class="btn btn-xs btn-outline" onclick="DietTracker.filterByBrand('霸王茶姬')">霸王茶姬</button>
+          <button type="button" class="btn btn-xs btn-outline" onclick="DietTracker.filterByBrand('瑞幸')">瑞幸</button>
+          <button type="button" class="btn btn-xs btn-outline" onclick="DietTracker.filterByBrand('Peets')">Peets</button>
+        </div>
+      </div>` : '';
+    const html = `
+      <h3>添加食物 - ${mealNames[mealType] || mealType}</h3>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        ${drinkQuickBtns}
+        <label>选择食物/饮品（可搜索）</label>
+        <input type="text" class="input" id="foodSearch" placeholder="输入名称搜索..." list="foodDatalist" oninput="DietTracker.onFoodSearch(this.value)">
+        <datalist id="foodDatalist">${foodOptions}</datalist>
+        <label>卡路里 (kcal)</label>
+        <input type="number" class="input" id="foodCalories" placeholder="每份卡路里" step="1">
+        <label>份数</label>
+        <input type="number" class="input" id="foodAmount" value="1" min="0.5" step="0.5">
+        <label>自定义名称（可选）</label>
+        <input type="text" class="input" id="foodCustomName" placeholder="如果不在数据库中可以自定义">
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-outline btn-sm" onclick="DietTracker.closeModal()">取消</button>
+        <button class="btn btn-primary btn-sm" onclick="DietTracker.addFood()">➕ 添加</button>
+      </div>`;
+    $('#modalContent').innerHTML = html;
+    $('#modalOverlay').classList.add('show');
+  },
+
+  filterByBrand(brand) {
+    const customItems = Store.getCustomItems().filter(c => c.brand === brand).map(c => ({ name: c.name + '（' + c.brand + '）', cal: c.cal, brand: c.brand }));
+    const items = [...DRINK_DB.filter(d => d.brand === brand), ...customItems];
+    const opts = items.map(d => `<option value="${d.name}">${d.name} (${d.cal} kcal)</option>`).join('');
+    const datalist = $('#foodDatalist');
+    if (datalist) datalist.innerHTML = opts;
+    if (items.length > 0) {
+      $('#foodSearch').value = items[0].name;
+      $('#foodCalories').value = items[0].cal;
+    }
+  },
+
+  onFoodSearch(val) {
+    const allFoods = this.getMergedFoodDB();
+    const found = allFoods.find(f => f.name.includes(val) || f.name === val);
+    if (found) {
+      $('#foodCalories').value = found.cal;
+    }
+  },
+
+  closeModal() {
+    $('#modalOverlay').classList.remove('show');
+    this.currentMealType = null;
+  },
+
+  addFood() {
+    const customName = $('#foodCustomName').value.trim();
+    const searchName = $('#foodSearch').value.trim();
+    const name = customName || searchName;
+    const calories = parseInt($('#foodCalories').value) || 0;
+    const amount = parseFloat($('#foodAmount').value) || 1;
+
+    if (!name) { showToast('请输入或选择食物'); return; }
+    if (calories <= 0) { showToast('请输入卡路里'); return; }
+
+    const today = fmtDate(new Date());
+    const diet = Store.getDiet(today);
+    diet[this.currentMealType].push({ name, calories, amount });
+    Store.setDiet(today, diet);
+    this.closeModal();
+    this.render();
+    showToast('食物已添加 🍽️');
+  },
+
+  removeFood(mealType, index) {
+    const today = fmtDate(new Date());
+    const diet = Store.getDiet(today);
+    diet[mealType].splice(index, 1);
+    Store.setDiet(today, diet);
+    this.render();
+  },
+
+  renderWeeklyChart() {
+    const today = new Date();
+    const days = [];
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date(today);
+      d.setDate(d.getDate() - i);
+      const dateStr = fmtDate(d);
+      const diet = Store.getDiet(dateStr);
+      let total = 0;
+      ['breakfast', 'lunch', 'morning_tea', 'dinner', 'afternoon_tea', 'snack'].forEach(meal => {
+        (diet[meal] || []).forEach(f => total += (f.calories || 0) * (f.amount || 1));
+      });
+      const dayNames = ['日', '一', '二', '三', '四', '五', '六'];
+      days.push({ label: dayNames[d.getDay()], cal: total, date: dateStr });
+    }
+
+    const goal = Store.getDietGoal().dailyCalories;
+    const maxCal = Math.max(goal, ...days.map(d => d.cal));
+
+    $('#weeklyChart').innerHTML = days.map(d => {
+      const h = maxCal > 0 ? Math.max(4, (d.cal / maxCal) * 110) : 4;
+      const color = d.cal > goal ? 'var(--danger)' : d.cal > goal * 0.8 ? 'var(--warning)' : 'var(--success)';
+      return `<div style="flex:1;text-align:center;display:flex;flex-direction:column;align-items:center;gap:4px">
+        <div style="font-size:0.7em;color:var(--text-secondary)">${d.cal}</div>
+        <div style="width:100%;max-width:40px;height:${h}px;background:${color};border-radius:6px 6px 0 0;transition:height 0.5s"></div>
+        <div style="font-size:0.75em">${d.label}</div>
+      </div>`;
+    }).join('');
+  },
+
+  openBlindBox() {
+    const btn = $('#blindboxBtn');
+    btn.classList.add('shaking');
+    $('#blindboxResult').innerHTML = '';
+
+    // Get eating history from last 30 days
+    const allFoods = {};
+    const today = new Date();
+    const allMeals = ['breakfast', 'lunch', 'morning_tea', 'dinner', 'afternoon_tea', 'snack'];
+    for (let i = 0; i < 30; i++) {
+      const d = new Date(today);
+      d.setDate(d.getDate() - i);
+      const diet = Store.getDiet(fmtDate(d));
+      allMeals.forEach(meal => {
+        (diet[meal] || []).forEach(f => {
+          const key = f.name;
+          if (!allFoods[key]) allFoods[key] = { count: 0, totalCal: 0, name: key };
+          allFoods[key].count++;
+          allFoods[key].totalCal += f.calories || 0;
+        });
+      });
+    }
+
+    // Get remaining calories
+    const todayDiet = Store.getDiet(fmtDate(today));
+    let consumed = 0;
+    allMeals.forEach(meal => {
+      (todayDiet[meal] || []).forEach(f => consumed += (f.calories || 0) * (f.amount || 1));
+    });
+    const goal = Store.getDietGoal().dailyCalories;
+    const remaining = Math.max(100, goal - consumed);
+
+    // Build candidate meals based on history + calorie budget
+    const candidates = [];
+    // Add common dishes first (higher priority)
+    const commonDishes = Store.getCommonDishes();
+    commonDishes.forEach(d => {
+      candidates.push({ name: d.name, cal: d.cal, icon: '⭐' });
+      candidates.push({ name: d.name, cal: d.cal, icon: '⭐' }); // double weight
+    });
+    const sortedFoods = Object.values(allFoods).sort((a, b) => b.count - a.count);
+
+    if (sortedFoods.length < 3) {
+      // Not enough history, use general suggestions
+      const hour = new Date().getHours();
+      const mealType = hour < 10 ? 'breakfast' : hour < 14 ? 'lunch' : hour < 18 ? 'dinner' : 'snack';
+      const suggestions = {
+        breakfast: [
+          { name: '鸡蛋+全麦面包+牛奶', cal: 267, icon: '🍳' },
+          { name: '燕麦粥+香蕉+酸奶', cal: 310, icon: '🥣' },
+          { name: '小米粥+水煮蛋+苹果', cal: 235, icon: '🥚' },
+        ],
+        lunch: [
+          { name: '鸡胸肉+西兰花+糙米饭', cal: 380, icon: '🍗' },
+          { name: '三文鱼沙拉+全麦面包', cal: 350, icon: '🥗' },
+          { name: '番茄鸡蛋+米饭+凉拌黄瓜', cal: 420, icon: '🍅' },
+        ],
+        dinner: [
+          { name: '清蒸鱼+炒菠菜+紫薯', cal: 320, icon: '🐟' },
+          { name: '豆腐汤+炒时蔬+半碗米饭', cal: 280, icon: '🥬' },
+          { name: '虾仁蒸蛋+凉拌木耳', cal: 250, icon: '🦐' },
+        ],
+        snack: [
+          { name: '酸奶+坚果一小把', cal: 180, icon: '🥜' },
+          { name: '水果沙拉', cal: 120, icon: '🍓' },
+          { name: '全麦饼干+牛奶', cal: 200, icon: '🍪' },
+        ],
+      };
+      const pool = suggestions[mealType] || suggestions.lunch;
+      candidates.push(...pool);
+      // Add common dishes
+      const commonDishes = Store.getCommonDishes();
+      commonDishes.forEach(d => candidates.push({ name: d.name, cal: d.cal, icon: '⭐' }));
+    } else {
+      // Combine top foods into meal combos
+      const top = sortedFoods.slice(0, 8);
+      for (let i = 0; i < top.length; i++) {
+        for (let j = i + 1; j < top.length; j++) {
+          const comboCal = top[i].totalCal / Math.max(1, top[i].count) + top[j].totalCal / Math.max(1, top[j].count);
+          candidates.push({
+            name: top[i].name + ' + ' + top[j].name,
+            cal: Math.round(comboCal),
+            icon: '🍽️'
+          });
+        }
+      }
+      // Also add some new foods to try
+      const untried = FOOD_DB.filter(f => !allFoods[f.name] && f.cal < 400)
+        .sort(() => Math.random() - 0.5).slice(0, 10);
+      untried.forEach(f => {
+        candidates.push({ name: f.name, cal: f.cal, icon: '✨' });
+      });
+    }
+
+    // Filter by remaining calories
+    const filtered = candidates.filter(c => c.cal <= remaining * 1.2);
+    // Pick one randomly
+    const pool = filtered.length > 0 ? filtered : candidates;
+    const picked = pool[Math.floor(Math.random() * pool.length)];
+
+    // Sparkle effect
+    const container = $('#blindboxContainer');
+    const sparkles = ['✨', '💫', '⭐', '🌟', '🎁', '🎀'];
+    for (let i = 0; i < 8; i++) {
+      setTimeout(() => {
+        const s = document.createElement('span');
+        s.className = 'blindbox-sparkles';
+        s.textContent = sparkles[Math.floor(Math.random() * sparkles.length)];
+        s.style.left = (20 + Math.random() * 60) + '%';
+        s.style.top = (10 + Math.random() * 30) + '%';
+        container.appendChild(s);
+        setTimeout(() => s.remove(), 1000);
+      }, i * 100);
+    }
+
+    // Show result after animation
+    setTimeout(() => {
+      btn.classList.remove('shaking');
+      const calOk = picked.cal <= remaining;
+      $('#blindboxResult').innerHTML = `
+        <div class="blindbox-result">
+          <div style="font-size:1.1em;font-weight:700;margin-bottom:6px">${picked.icon} ${picked.name}</div>
+          <div style="font-size:0.9em;color:var(--text-secondary)">约 <strong>${picked.cal} kcal</strong></div>
+          <div style="font-size:0.8em;color:${calOk ? 'var(--success)' : 'var(--warning)'};margin-top:4px">
+            ${calOk ? '✅ 热量在预算内，放心吃吧~' : '⚠️ 稍微超出预算，可以适当减量哦~'}
+          </div>
+          <button class="btn btn-outline btn-xs" style="margin-top:8px" onclick="DietTracker.addBlindBoxFood('${picked.name.replace(/'/g, "\\'")}', ${picked.cal})">➕ 直接记录</button>
+          <button class="btn btn-outline btn-xs" style="margin-top:8px;margin-left:4px" onclick="DietTracker.openBlindBox()">🔄 再开一个</button>
+        </div>`;
+    }, 600);
+  },
+
+  addBlindBoxFood(name, calories) {
+    const today = fmtDate(new Date());
+    const diet = Store.getDiet(today);
+    const hour = new Date().getHours();
+    let mealType;
+    if (hour < 9) mealType = 'breakfast';
+    else if (hour < 11) mealType = 'morning_tea';
+    else if (hour < 13) mealType = 'lunch';
+    else if (hour < 15) mealType = 'afternoon_tea';
+    else if (hour < 18) mealType = 'afternoon_tea';
+    else if (hour < 20) mealType = 'dinner';
+    else mealType = 'snack';
+    const mealNames = { breakfast: '早餐', lunch: '午餐', morning_tea: '上午茶', dinner: '晚餐', afternoon_tea: '下午茶', snack: '零食' };
+    diet[mealType].push({ name, calories, amount: 1 });
+    Store.setDiet(today, diet);
+    this.render();
+    showToast('盲盒食物已记录到' + (mealNames[mealType] || mealType) + ' 🎉');
+  },
+
+  // ===== Meal Calorie Calculator =====
+  calcResults: [], // Store last calculated results
+
+  calcMealCalories() {
+    const raw = $('#mealCalcInput').value.trim();
+    if (!raw) { showToast('请描述你吃了什么'); return; }
+
+    // Split by common delimiters: + 、, ， 和 还有 spaces
+    const items = raw.split(/[+＋、，,和还有 也加再配]/g).map(s => s.trim()).filter(s => s.length > 0);
+
+    const allFoods = this.getMergedFoodDB();
+    const results = [];
+    const notFound = [];
+
+    items.forEach(item => {
+      // Remove common quantity words and get the core food name
+      let core = item
+        .replace(/[一二三四五六七八九十两]碗|[一二三四五六七八九十两]份|[一二三四五六七八九十两]个|[一二三四五六七八九十两]杯|[一二三四五六七八九十两]块|[一二三四五六七八九十两]包|[一二三四五六七八九十两]片|[一二三四五六七八九十两]根|[一二三四五六七八九十两]勺|半碗|半份|半个|半杯/g, '')
+        .replace(/一碗|一份|一个|一杯|一块|一包|一片|一根|一勺|大份|小份|中份|大杯|中杯|小杯|少量|多/g, '')
+        .replace(/[（(].*?[)）]/g, '')
+        .trim();
+
+      if (!core) return;
+
+      // Try exact match first, then fuzzy match
+      let bestMatch = null;
+      let bestScore = 0;
+
+      allFoods.forEach(food => {
+        // Remove quantity/unit info from food name for matching
+        const foodCore = food.name.replace(/[（(].*?[)）]/g, '').trim();
+
+        // Exact match
+        if (core === foodCore || core === food.name) {
+          if (4 > bestScore) { bestMatch = food; bestScore = 4; }
+          return;
+        }
+
+        // Food name contains the core
+        if (foodCore.includes(core) || food.name.includes(core)) {
+          const score = 3 + (core.length / foodCore.length);
+          if (score > bestScore) { bestMatch = food; bestScore = score; }
+          return;
+        }
+
+        // Core contains the food name
+        if (core.includes(foodCore) && foodCore.length >= 2) {
+          const score = 2 + (foodCore.length / core.length);
+          if (score > bestScore) { bestMatch = food; bestScore = score; }
+          return;
+        }
+
+        // Word-by-word matching (for multi-char Chinese)
+        const coreChars = [...core];
+        const foodChars = [...foodCore];
+        let matchCount = 0;
+        for (const c of coreChars) {
+          if (foodChars.includes(c)) matchCount++;
+        }
+        const ratio = matchCount / Math.max(coreChars.length, foodChars.length);
+        if (ratio > 0.5 && ratio > bestScore) {
+          bestMatch = food;
+          bestScore = ratio;
+        }
+      });
+
+      if (bestMatch) {
+        // Estimate quantity multiplier from the original text
+        let qty = 1;
+        const qtyMatch = item.match(/([一二两三四五2-5])[碗份个杯块包片根勺]/);
+        if (qtyMatch) {
+          const qtyMap = { '一':1, '二':2, '两':2, '三':3, '四':4, '五':5, '2':2, '3':3, '4':4, '5':5 };
+          qty = qtyMap[qtyMatch[1]] || 1;
+        }
+
+        results.push({
+          original: item,
+          name: bestMatch.name,
+          calories: bestMatch.cal * qty,
+          qty: qty,
+          brand: bestMatch.brand || ''
+        });
+      } else if (core.length >= 2) {
+        notFound.push(core);
+      }
+    });
+
+    this.calcResults = results;
+
+    // Render results
+    const resultEl = $('#mealCalcResult');
+    const addBtn = $('#mealCalcAddBtn');
+
+    if (results.length === 0 && notFound.length === 0) {
+      resultEl.innerHTML = '<div class="meal-calc-no-match">未能识别任何食物，请尝试更详细的描述</div>';
+      resultEl.classList.add('show');
+      addBtn.style.display = 'none';
+      return;
+    }
+
+    let html = '';
+    let totalCal = 0;
+
+    if (results.length > 0) {
+      html += '<div style="font-weight:600;font-size:0.85em;margin-bottom:4px;color:var(--text-secondary)">✅ 识别到的食物：</div>';
+      results.forEach(r => {
+        totalCal += r.calories;
+        const qtyLabel = r.qty > 1 ? ` ×${r.qty}` : '';
+        html += `<div class="meal-calc-item">
+          <span class="food-name">🍽 ${r.name}${qtyLabel}${r.brand ? ' <small style="opacity:0.6">[' + r.brand + ']</small>' : ''}</span>
+          <span class="food-cal">${r.calories} kcal</span>
+        </div>`;
+      });
+      html += `<div class="meal-calc-total">
+        <span>📊 估算总热量</span>
+        <span>${totalCal} kcal</span>
+      </div>`;
+    }
+
+    if (notFound.length > 0) {
+      html += `<div class="meal-calc-no-match" style="margin-top:8px">⚠️ 未能识别：${notFound.join('、')} — 请尝试更具体的名称</div>`;
+    }
+
+    resultEl.innerHTML = html;
+    resultEl.classList.add('show');
+    addBtn.style.display = results.length > 0 ? '' : 'none';
+  },
+
+  addCalcToMeal() {
+    if (this.calcResults.length === 0) { showToast('请先计算卡路里'); return; }
+
+    const mealType = $('#mealCalcMealType').value;
+    const today = fmtDate(new Date());
+    const diet = Store.getDiet(today);
+
+    this.calcResults.forEach(r => {
+      diet[mealType].push({ name: r.name, calories: r.calories, amount: r.qty });
+    });
+
+    Store.setDiet(today, diet);
+
+    // Clear the input and results
+    $('#mealCalcInput').value = '';
+    $('#mealCalcResult').innerHTML = '';
+    $('#mealCalcResult').classList.remove('show');
+    $('#mealCalcAddBtn').style.display = 'none';
+    this.calcResults = [];
+
+    this.render();
+    const mealNames = { breakfast: '早餐', lunch: '午餐', morning_tea: '上午茶', dinner: '晚餐', afternoon_tea: '下午茶', snack: '零食' };
+    showToast('已记录到' + (mealNames[mealType] || mealType) + ' ✅');
+  }
+};
+
+// ==================== Schedule Manager (UNNC Style) ====================
+const ScheduleManager = {
+  editingId: null,
+  // UNNC standard time slots: 9am-12pm morning, 1pm-6pm afternoon, 6:30pm-8pm evening
+  timeSlots: ['09:00-10:00', '10:00-11:00', '11:00-12:00', '13:00-14:00', '14:00-15:00', '15:00-16:00', '16:00-17:00', '17:00-18:00', '18:30-20:00'],
+
+  init() {},
+
+  render() {
+    const classes = Store.getClasses();
+    const tbody = $('#scheduleBody');
+    const legend = $('#scheduleLegend');
+
+    // Build occupancy grid: grid[day][slotIndex] = { course, rowspan } or 'covered'
+    const grid = {};
+    for (let day = 0; day < 5; day++) {
+      grid[day] = {};
+      for (let i = 0; i < this.timeSlots.length; i++) {
+        grid[day][i] = null;
+      }
+    }
+
+    classes.forEach(c => {
+      const slotIdx = this.timeSlots.indexOf(c.startTime);
+      if (slotIdx < 0) return;
+      const duration = Math.max(1, c.duration || 1);
+      for (let i = 0; i < duration && (slotIdx + i) < this.timeSlots.length; i++) {
+        if (i === 0) {
+          grid[c.dayOfWeek][slotIdx + i] = { course: c, rowspan: Math.min(duration, this.timeSlots.length - slotIdx) };
+        } else {
+          grid[c.dayOfWeek][slotIdx + i] = 'covered';
+        }
+      }
+    });
+
+    // Build table rows
+    let html = '';
+    for (let si = 0; si < this.timeSlots.length; si++) {
+      const [start, end] = this.timeSlots[si].split('-');
+      html += `<tr><td class="time-label">${start}<br><span class="time-end">${end}</span></td>`;
+
+      for (let day = 0; day < 5; day++) {
+        const cell = grid[day][si];
+        if (cell === 'covered') {
+          // Skip - covered by a rowspan above
+        } else if (cell && cell.course) {
+          const c = cell.course;
+          html += `<td class="schedule-cell" rowspan="${cell.rowspan}">
+            <div class="class-block" style="background:${c.color}" onclick="ScheduleManager.showEditModal('${c.id}')" title="${c.courseCode ? c.courseCode + ' - ' : ''}${c.name}&#10;${c.room || ''}">
+              <span class="class-code">${c.courseCode || ''}</span>
+              <span class="class-name">${c.name}</span>
+              <span class="class-room">${c.room || ''}</span>
+            </div>
+          </td>`;
+        } else {
+          html += `<td class="schedule-cell schedule-cell-empty"></td>`;
+        }
+      }
+      html += '</tr>';
+    }
+    tbody.innerHTML = html;
+
+    // Render legend
+    const uniqueCourses = [];
+    const seen = new Set();
+    classes.forEach(c => {
+      const key = c.courseCode + c.name;
+      if (!seen.has(key)) {
+        seen.add(key);
+        uniqueCourses.push(c);
+      }
+    });
+    if (uniqueCourses.length > 0) {
+      legend.innerHTML = '<span style="opacity:0.7">课程标注：</span>' + uniqueCourses.map(c =>
+        `<span class="schedule-legend-item"><span class="schedule-legend-dot" style="background:${c.color}"></span>${c.courseCode ? c.courseCode + ' ' : ''}${c.name}</span>`
+      ).join('');
+    } else {
+      legend.innerHTML = '';
+    }
+  },
+
+  showAddModal() {
+    this.editingId = null;
+    const html = `
+      <h3>添加课程</h3>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <label>课程代码 <small style="opacity:0.6">（如 CELEN048）</small></label>
+        <input type="text" class="input" id="modalCourseCode" placeholder="CELEN048">
+        <label>课程名称</label>
+        <input type="text" class="input" id="modalClassName" placeholder="如：学术阅读与写作">
+        <label>教室</label>
+        <input type="text" class="input" id="modalClassRoom" placeholder="如：TB-301">
+        <div style="display:flex;gap:10px">
+          <div style="flex:1">
+            <label>星期</label>
+            <select class="input" id="modalClassDay">
+              <option value="0">周一</option><option value="1">周二</option><option value="2">周三</option>
+              <option value="3">周四</option><option value="4">周五</option>
+            </select>
+          </div>
+          <div style="flex:1">
+            <label>开始时间</label>
+            <select class="input" id="modalClassTime">
+              ${this.timeSlots.map(s => `<option value="${s}">${s}</option>`).join('')}
+            </select>
+          </div>
+          <div style="flex:1">
+            <label>持续节数</label>
+            <select class="input" id="modalClassDuration">
+              <option value="1">1 节 (1h)</option><option value="2">2 节 (2h)</option><option value="3">3 节 (3h)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-outline btn-sm" onclick="ScheduleManager.closeModal()">取消</button>
+        <button class="btn btn-primary btn-sm" onclick="ScheduleManager.save()">💾 保存</button>
+      </div>`;
+    $('#modalContent').innerHTML = html;
+    $('#modalOverlay').classList.add('show');
+  },
+
+  showEditModal(id) {
+    const classes = Store.getClasses();
+    const c = classes.find(cl => cl.id === id);
+    if (!c) return;
+    this.editingId = id;
+    const html = `
+      <h3>编辑课程</h3>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <label>课程代码</label>
+        <input type="text" class="input" id="modalCourseCode" value="${c.courseCode || ''}" placeholder="如：CELEN048">
+        <label>课程名称</label>
+        <input type="text" class="input" id="modalClassName" value="${c.name}">
+        <label>教室</label>
+        <input type="text" class="input" id="modalClassRoom" value="${c.room || ''}">
+        <div style="display:flex;gap:10px">
+          <div style="flex:1">
+            <label>星期</label>
+            <select class="input" id="modalClassDay">
+              ${['周一','周二','周三','周四','周五'].map((d,i) => `<option value="${i}" ${c.dayOfWeek === i ? 'selected' : ''}>${d}</option>`).join('')}
+            </select>
+          </div>
+          <div style="flex:1">
+            <label>开始时间</label>
+            <select class="input" id="modalClassTime">
+              ${this.timeSlots.map(s => `<option value="${s}" ${c.startTime === s ? 'selected' : ''}>${s}</option>`).join('')}
+            </select>
+          </div>
+          <div style="flex:1">
+            <label>持续节数</label>
+            <select class="input" id="modalClassDuration">
+              ${[1,2,3].map(d => `<option value="${d}" ${(c.duration || 1) === d ? 'selected' : ''}>${d} 节 (${d}h)</option>`).join('')}
+            </select>
+          </div>
+        </div>
+        <button class="btn btn-danger btn-sm" onclick="ScheduleManager.deleteClass('${c.id}')">🗑️ 删除此课程</button>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-outline btn-sm" onclick="ScheduleManager.closeModal()">取消</button>
+        <button class="btn btn-primary btn-sm" onclick="ScheduleManager.save()">💾 保存</button>
+      </div>`;
+    $('#modalContent').innerHTML = html;
+    $('#modalOverlay').classList.add('show');
+  },
+
+  closeModal() {
+    $('#modalOverlay').classList.remove('show');
+    this.editingId = null;
+  },
+
+  save() {
+    const courseCode = $('#modalCourseCode').value.trim();
+    const name = $('#modalClassName').value.trim();
+    const room = $('#modalClassRoom').value.trim();
+    const dayOfWeek = parseInt($('#modalClassDay').value);
+    const startTime = $('#modalClassTime').value;
+    const duration = parseInt($('#modalClassDuration').value) || 1;
+
+    if (!name) { showToast('请输入课程名称'); return; }
+
+    const classes = Store.getClasses();
+    // Auto-assign color based on course code
+    const colorMap = {
+      'CELEN': '#4a90d9', 'EDENF': '#e056a0', 'MATH': '#ffa726',
+      'BUSI': '#66bb6a', 'COMP': '#7e57c2', 'LANG': '#ef5350',
+      'PHYS': '#26c6da', 'CHEM': '#ab47bc', 'HIST': '#ff7043',
+      'ECON': '#42a5f5', 'BIOL': '#8bc34a', 'ENG': '#5c6bc0',
+    };
+    let color = '';
+    if (courseCode) {
+      for (const [prefix, clr] of Object.entries(colorMap)) {
+        if (courseCode.toUpperCase().startsWith(prefix)) { color = clr; break; }
+      }
+    }
+    if (!color) {
+      const palette = ['#4a90d9', '#e056a0', '#ffa726', '#66bb6a', '#7e57c2', '#ef5350', '#26c6da', '#ab47bc'];
+      color = palette[Math.floor(Math.random() * palette.length)];
+    }
+
+    if (this.editingId) {
+      const idx = classes.findIndex(c => c.id === this.editingId);
+      if (idx >= 0) {
+        classes[idx] = { ...classes[idx], courseCode, name, room, dayOfWeek, startTime, duration, color };
+      }
+    } else {
+      classes.push({
+        id: genId(), courseCode, name, room, dayOfWeek, startTime, duration, color
+      });
+    }
+
+    Store.setClasses(classes);
+    this.closeModal();
+    this.render();
+    showToast('课程已保存 📚');
+  },
+
+  deleteClass(id) {
+    const classes = Store.getClasses().filter(c => c.id !== id);
+    Store.setClasses(classes);
+    this.closeModal();
+    this.render();
+    showToast('课程已删除');
+  },
+
+  showImportModal() {
+    const html = `
+      <h3>📥 批量导入课程表</h3>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <label>请按格式粘贴课程数据（每行一门课）：</label>
+        <textarea class="import-textarea" id="importData" placeholder="格式：课程代码 课程名称 教室 星期 时间段 [持续节数]&#10;示例：&#10;CELEN048 学术阅读与写作 TB-301 周一 09:00-10:00 2&#10;EDENF001 语言学概论 TB-205 周二 10:00-11:00 1&#10;COMP103 程序设计基础 TB-401 周三 14:00-15:00 2&#10;&#10;说明：&#10;• 用空格/Tab分隔各字段&#10;• 星期：周一 至 周五&#10;• 时间段：09:00-10:00 | 10:00-11:00 | 11:00-12:00 | 13:00-14:00 | 14:00-15:00 | 15:00-16:00 | 16:00-17:00 | 17:00-18:00 | 18:30-20:00&#10;• 持续节数（可选，默认1）：1节(1h) / 2节(2h) / 3节(3h)&#10;• 无课程代码可用 - 代替&#10;• 无教室可用 - 代替"></textarea>
+        <div class="import-hint">
+          💡 提示：<br>
+          • 每行一门课程，字段之间用空格分隔<br>
+          • 课程代码为可选（如 CELEN048）<br>
+          • 时间段必须是上述9个标准时间段之一<br>
+          • 持续节数默认为1，填写2表示连续2小时
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-outline btn-sm" onclick="ScheduleManager.closeModal()">取消</button>
+        <button class="btn btn-primary btn-sm" onclick="ScheduleManager.importCourses()">📥 导入</button>
+      </div>`;
+    $('#modalContent').innerHTML = html;
+    $('#modalOverlay').classList.add('show');
+  },
+
+  importCourses() {
+    const raw = $('#importData').value.trim();
+    if (!raw) { showToast('请粘贴课程数据'); return; }
+
+    const dayMap = { '周一':0, '周二':1, '周三':2, '周四':3, '周五':4, '星期一':0, '星期二':1, '星期三':2, '星期四':3, '星期五':4 };
+    const validSlots = new Set(this.timeSlots);
+    const classes = Store.getClasses();
+    const palette = ['#4a90d9', '#e056a0', '#ffa726', '#66bb6a', '#7e57c2', '#ef5350', '#26c6da', '#ab47bc'];
+    let imported = 0, errors = 0;
+    const errorLines = [];
+
+    const lines = raw.split('\n').filter(l => l.trim());
+    lines.forEach((line, idx) => {
+      const parts = line.trim().split(/\s+/);
+      if (parts.length < 3) { errors++; errorLines.push(`第${idx+1}行：格式不正确（至少需要 课程名称 星期 时间段）`); return; }
+
+      let courseCode, name, room, dayStr, timeStr, duration = 1;
+
+      // Find day and time in parts
+      let dayIdx = -1;
+      for (let i = 0; i < parts.length; i++) {
+        if (dayMap[parts[i]] !== undefined) { dayIdx = i; break; }
+      }
+      if (dayIdx < 0) { errors++; errorLines.push(`第${idx+1}行：未找到有效的星期`); return; }
+
+      dayStr = parts[dayIdx];
+      timeStr = parts[dayIdx + 1] || '';
+      if (dayIdx + 2 < parts.length && /^\d+$/.test(parts[dayIdx + 2])) {
+        duration = parseInt(parts[dayIdx + 2]);
+        if (duration < 1 || duration > 3) duration = 1;
+      }
+
+      // Everything before day could be: code + name + room, name + room, or just name
+      const before = parts.slice(0, dayIdx);
+      if (before.length === 0) { errors++; errorLines.push(`第${idx+1}行：缺少课程名称`); return; }
+
+      // Check if first part looks like a course code (e.g., CELEN048, COMP103)
+      const codePattern = /^[A-Za-z]{2,}\d{2,}[A-Za-z]?$/i;
+      if (codePattern.test(before[0])) {
+        courseCode = before[0].toUpperCase();
+        if (before.length >= 3) {
+          // code + name + room
+          room = before[before.length - 1];
+          name = before.slice(1, before.length - 1).join(' ');
+        } else if (before.length === 2) {
+          name = before[1];
+          room = '-';
+        } else {
+          name = '';
+          room = '-';
+        }
+      } else {
+        courseCode = '';
+        if (before.length >= 2) {
+          room = before[before.length - 1];
+          name = before.slice(0, before.length - 1).join(' ');
+        } else {
+          name = before[0];
+          room = '-';
+        }
+      }
+
+      // Validate
+      if (!name) { errors++; errorLines.push(`第${idx+1}行：课程名称为空`); return; }
+      const dayOfWeek = dayMap[dayStr];
+      if (dayOfWeek === undefined) { errors++; errorLines.push(`第${idx+1}行：无效的星期 "${dayStr}"`); return; }
+      if (!validSlots.has(timeStr)) { errors++; errorLines.push(`第${idx+1}行：无效的时间段 "${timeStr}"`); return; }
+
+      // Auto color
+      const colorMap = { 'CELEN':'#4a90d9','EDENF':'#e056a0','MATH':'#ffa726','BUSI':'#66bb6a','COMP':'#7e57c2','LANG':'#ef5350','PHYS':'#26c6da','CHEM':'#ab47bc','HIST':'#ff7043','ECON':'#42a5f5','BIOL':'#8bc34a','ENG':'#5c6bc0' };
+      let color = '';
+      if (courseCode) {
+        for (const [prefix, clr] of Object.entries(colorMap)) {
+          if (courseCode.toUpperCase().startsWith(prefix)) { color = clr; break; }
+        }
+      }
+      if (!color) color = palette[Math.floor(Math.random() * palette.length)];
+
+      classes.push({
+        id: genId(), courseCode, name, room: room === '-' ? '' : room, dayOfWeek, startTime: timeStr, duration, color
+      });
+      imported++;
+    });
+
+    Store.setClasses(classes);
+    this.closeModal();
+    this.render();
+
+    let msg = `成功导入 ${imported} 门课程！`;
+    if (errors > 0) msg += ` ${errors} 行失败。`;
+    if (errorLines.length > 0) {
+      msg += '\n\n失败详情：\n' + errorLines.slice(0, 5).join('\n');
+      if (errorLines.length > 5) msg += `\n... 还有 ${errorLines.length - 5} 条错误`;
+    }
+    showToast(msg);
+    if (errors > 0) alert(msg);
+  }
+};
+// ==================== Todo Manager ====================
+const TodoManager = {
+  init() { this.render(); },
+
+  add() {
+    const text = $('#todoInput').value.trim();
+    if (!text) { showToast('请输入待办内容'); return; }
+    const priority = $('#todoPriority').value;
+    const dueDate = $('#todoDueDate').value;
+
+    const todos = Store.getTodos();
+    todos.push({ id: genId(), text, completed: false, priority, dueDate, createdAt: fmtDate(new Date()) });
+    Store.setTodos(todos);
+    $('#todoInput').value = '';
+    $('#todoDueDate').value = '';
+    this.render();
+    App.refreshOverview();
+  },
+
+  toggle(id) {
+    const todos = Store.getTodos();
+    const todo = todos.find(t => t.id === id);
+    if (todo) { todo.completed = !todo.completed; Store.setTodos(todos); }
+    this.render();
+    App.refreshOverview();
+  },
+
+  delete(id) {
+    const todos = Store.getTodos().filter(t => t.id !== id);
+    Store.setTodos(todos);
+    this.render();
+    App.refreshOverview();
+  },
+
+  render() {
+    const todos = Store.getTodos();
+    if (todos.length === 0) {
+      $('#todoList').innerHTML = '<div style="color:var(--text-secondary);text-align:center;padding:20px">暂无待办事项 ✨</div>';
+      return;
+    }
+    // Sort: incomplete first, then by priority, then by date
+    todos.sort((a, b) => {
+      if (a.completed !== b.completed) return a.completed ? 1 : -1;
+      const pOrder = { high: 0, medium: 1, low: 2 };
+      if (pOrder[a.priority] !== pOrder[b.priority]) return pOrder[a.priority] - pOrder[b.priority];
+      if (a.dueDate && b.dueDate) return a.dueDate.localeCompare(b.dueDate);
+      return 0;
+    });
+
+    $('#todoList').innerHTML = todos.map(t => `
+      <div class="todo-item">
+        <div class="todo-checkbox ${t.completed ? 'done' : ''}" onclick="TodoManager.toggle('${t.id}')">${t.completed ? '✓' : ''}</div>
+        <div class="todo-priority ${t.priority}"></div>
+        <span class="todo-text ${t.completed ? 'done' : ''}">${t.text}</span>
+        ${t.dueDate ? `<span class="todo-date">📅 ${t.dueDate}</span>` : ''}
+        <button class="btn btn-xs" style="color:var(--danger);background:none;font-size:0.7em;padding:2px 6px" onclick="TodoManager.delete('${t.id}')">✕</button>
+      </div>
+    `).join('');
+  }
+};
+
+// ==================== Exam Manager ====================
+const ExamManager = {
+  init() { this.render(); },
+
+  add() {
+    const subject = $('#examSubject').value.trim();
+    const date = $('#examDate').value;
+    const notes = $('#examNotes').value.trim();
+
+    if (!subject) { showToast('请输入考试科目'); return; }
+    if (!date) { showToast('请选择考试日期'); return; }
+
+    const exams = Store.getExams();
+    exams.push({ id: genId(), subject, date, notes });
+    exams.sort((a, b) => a.date.localeCompare(b.date));
+    Store.setExams(exams);
+
+    $('#examSubject').value = '';
+    $('#examDate').value = '';
+    $('#examNotes').value = '';
+    this.render();
+    App.refreshOverview();
+  },
+
+  delete(id) {
+    const exams = Store.getExams().filter(e => e.id !== id);
+    Store.setExams(exams);
+    this.render();
+    App.refreshOverview();
+  },
+
+  render() {
+    const exams = Store.getExams();
+    if (exams.length === 0) {
+      $('#examList').innerHTML = '<div style="color:var(--text-secondary);text-align:center;padding:20px">暂无考试记录 📝</div>';
+      return;
+    }
+    const now = fmtDate(new Date());
+
+    $('#examList').innerHTML = exams.map(e => {
+      const days = daysBetween(now, e.date);
+      let statusHtml = '';
+      if (days < 0) {
+        statusHtml = `<div class="countdown"><div class="days" style="color:var(--success)">✓</div><div class="label">已完成</div></div>`;
+      } else if (days === 0) {
+        statusHtml = `<div class="countdown urgent"><div class="days">今天</div><div class="label">就是今天!</div></div>`;
+      } else {
+        statusHtml = `<div class="countdown ${days <= 7 ? 'urgent' : ''}"><div class="days">${days}</div><div class="label">剩余天数</div></div>`;
+      }
+      return `<div class="exam-card">
+        <div class="exam-info">
+          <div class="subject">📖 ${e.subject}</div>
+          <div class="date">📅 ${e.date} ${e.notes ? '· ' + e.notes : ''}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          ${statusHtml}
+          <button class="btn btn-xs" style="color:var(--danger);background:none;font-size:0.7em" onclick="ExamManager.delete('${e.id}')">✕</button>
+        </div>
+      </div>`;
+    }).join('');
+  }
+};
+
+// ==================== Theme Manager ====================
+const ThemeManager = {
+  init() {
+    const savedTheme = Store.getTheme();
+    this.setTheme(savedTheme, false);
+    document.body.setAttribute('data-bg', '0');
+    this.highlightActiveTheme();
+  },
+
+  setTheme(theme, save = true) {
+    document.body.setAttribute('data-theme', theme);
+    if (save) {
+      Store.setTheme(theme);
+      document.body.setAttribute('data-bg', '0');
+    }
+    this.highlightActiveTheme();
+  },
+
+  highlightActiveTheme() {
+    const theme = Store.getTheme();
+    $$('#themePicker .theme-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.theme === theme);
+    });
+  }
+};
+
+// ==================== Settings Manager ====================
+const SettingsManager = {
+  render() {
+    ThemeManager.highlightActiveTheme();
+    $('#appNameInput').value = Store.getAppName();
+    const coords = Store.getCoords();
+    if (coords) {
+      $('#currentCoords').textContent = coords.name ? `${coords.name} (${coords.lat.toFixed(2)}, ${coords.lon.toFixed(2)})` : `${coords.lat.toFixed(2)}, ${coords.lon.toFixed(2)}`;
+    }
+    const loveDate = Store.getLoveDate();
+    if (loveDate) {
+      $('#loveStartDateInput').value = loveDate;
+      const days = daysBetween(loveDate, fmtDate(new Date()));
+      $('#loveDateStatus').textContent = `已相遇 ${days} 天 📅`;
+    }
+  },
+
+  saveAppName() {
+    const name = $('#appNameInput').value.trim();
+    if (!name) { showToast('请输入名字'); return; }
+    Store.setAppName(name);
+    App.updateAppDisplay();
+    App.updateLoveDays();
+    showToast('名字已更新 ✅');
+    this.render();
+  },
+
+  saveLoveDate() {
+    const date = $('#loveStartDateInput').value;
+    if (!date) { showToast('请选择相遇日期'); return; }
+    Store.setLoveDate(date);
+    App.updateLoveDays();
+    showToast('相遇日已保存 ✅');
+    this.render();
+  }
+};
+
+// Fix syntax: these used `const X = {` without proper assignment
+
+// ==================== Modal Click Outside ====================
+$('#modalOverlay').addEventListener('click', function(e) {
+  if (e.target === this) {
+    this.classList.remove('show');
+  }
+});
+
+// ==================== Music Player ====================
+const MusicPlayer = {
+  db: null,
+  playlist: [],
+  currentIndex: -1,
+
+  init() {
+    this.openDB(() => {
+      this.loadPlaylist();
+    });
+    const audio = $('#musicAudio');
+    audio.addEventListener('timeupdate', () => this.onTimeUpdate());
+    audio.addEventListener('ended', () => this.onEnded());
+  },
+
+  openDB(cb) {
+    const req = indexedDB.open('gf_music_db', 1);
+    req.onupgradeneeded = (e) => {
+      const db = e.target.result;
+      if (!db.objectStoreNames.contains('tracks')) {
+        db.createObjectStore('tracks', { keyPath: 'id' });
+      }
+    };
+    req.onsuccess = (e) => {
+      this.db = e.target.result;
+      if (cb) cb();
+    };
+    req.onerror = () => console.log('IndexedDB not available');
+  },
+
+  loadPlaylist() {
+    if (!this.db) return;
+    const tx = this.db.transaction('tracks', 'readonly');
+    const store = tx.objectStore('tracks');
+    const req = store.getAll();
+    req.onsuccess = () => {
+      this.playlist = req.result || [];
+      this.renderPlaylist();
+    };
+  },
+
+  uploadFiles(input) {
+    if (!this.db) { showToast('浏览器不支持存储，请使用现代浏览器'); return; }
+    const files = input.files;
+    if (!files.length) return;
+    let loaded = 0;
+    Array.from(files).forEach(file => {
+      if (!file.type.startsWith('audio/')) { loaded++; return; }
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const track = {
+          id: genId(),
+          name: file.name.replace(/\.[^.]+$/, ''),
+          type: file.type,
+          size: file.size,
+          data: e.target.result,
+          date: Date.now()
+        };
+        const tx = this.db.transaction('tracks', 'readwrite');
+        tx.objectStore('tracks').add(track);
+        tx.oncomplete = () => {
+          loaded++;
+          if (loaded >= files.length) {
+            this.loadPlaylist();
+            showToast('音乐上传完成 🎵');
+          }
+        };
+      };
+      reader.readAsArrayBuffer(file);
+    });
+    input.value = '';
+  },
+
+  renderPlaylist() {
+    const list = $('#musicPlaylist');
+    const count = $('#musicCount');
+    if (!list) return;
+    if (this.playlist.length === 0) {
+      list.innerHTML = '<div style="color:var(--text-secondary);font-size:0.85em;text-align:center;padding:10px">暂无音乐，点击上传按钮添加~</div>';
+      if (count) count.textContent = '暂无音乐';
+      return;
+    }
+    if (count) count.textContent = this.playlist.length + ' 首音乐';
+    list.innerHTML = this.playlist.map((t, i) => `
+      <div class="music-item${i === this.currentIndex ? ' active' : ''}" onclick="MusicPlayer.play(${i})">
+        <span>🎵</span>
+        <span class="music-name">${t.name}</span>
+        <small style="color:var(--text-secondary)">${(t.size / 1024 / 1024).toFixed(1)}MB</small>
+        <button class="music-del" onclick="event.stopPropagation();MusicPlayer.deleteTrack(${i})" title="删除">×</button>
+      </div>
+    `).join('');
+  },
+
+  play(index) {
+    if (index < 0 || index >= this.playlist.length) return;
+    this.currentIndex = index;
+    const track = this.playlist[index];
+    const audio = $('#musicAudio');
+    const blob = new Blob([track.data], { type: track.type });
+    const url = URL.createObjectURL(blob);
+    // Revoke old URL
+    if (audio._blobUrl) URL.revokeObjectURL(audio._blobUrl);
+    audio._blobUrl = url;
+    audio.src = url;
+    audio.play().catch(() => {});
+    this.updateNowPlaying(track);
+    this.renderPlaylist();
+  },
+
+  updateNowPlaying(track) {
+    const np = $('#nowPlaying');
+    if (np) np.style.display = 'block';
+    const title = $('#npTitle');
+    if (title) title.textContent = track ? track.name : '-';
+    const btn = $('#musicPlayBtn');
+    if (btn) btn.textContent = '⏸️ 暂停';
+  },
+
+  togglePlay() {
+    const audio = $('#musicAudio');
+    if (!audio.src || audio.src === window.location.href) {
+      if (this.playlist.length > 0) this.play(0);
+      return;
+    }
+    if (audio.paused) {
+      audio.play().catch(() => {});
+      const btn = $('#musicPlayBtn');
+      if (btn) btn.textContent = '⏸️ 暂停';
+    } else {
+      audio.pause();
+      const btn = $('#musicPlayBtn');
+      if (btn) btn.textContent = '▶️ 播放';
+    }
+  },
+
+  stop() {
+    const audio = $('#musicAudio');
+    audio.pause();
+    audio.currentTime = 0;
+    const btn = $('#musicPlayBtn');
+    if (btn) btn.textContent = '▶️ 播放';
+    const fill = $('#musicProgressFill');
+    if (fill) fill.style.width = '0%';
+  },
+
+  next() {
+    if (this.playlist.length === 0) return;
+    const next = (this.currentIndex + 1) % this.playlist.length;
+    this.play(next);
+  },
+
+  prev() {
+    if (this.playlist.length === 0) return;
+    const prev = (this.currentIndex - 1 + this.playlist.length) % this.playlist.length;
+    this.play(prev);
+  },
+
+  deleteTrack(index) {
+    if (!this.db) return;
+    const track = this.playlist[index];
+    if (!track) return;
+    const tx = this.db.transaction('tracks', 'readwrite');
+    tx.objectStore('tracks').delete(track.id);
+    tx.oncomplete = () => {
+      if (this.currentIndex === index) {
+        this.stop();
+        this.currentIndex = -1;
+        const np = $('#nowPlaying');
+        if (np) np.style.display = 'none';
+      } else if (this.currentIndex > index) {
+        this.currentIndex--;
+      }
+      this.loadPlaylist();
+    };
+  },
+
+  onTimeUpdate() {
+    const audio = $('#musicAudio');
+    if (!audio || !audio.duration) return;
+    const pct = (audio.currentTime / audio.duration) * 100;
+    const fill = $('#musicProgressFill');
+    if (fill) fill.style.width = pct + '%';
+    const time = $('#npTime');
+    if (time) {
+      const fmt = (s) => Math.floor(s / 60) + ':' + String(Math.floor(s % 60)).padStart(2, '0');
+      time.textContent = fmt(audio.currentTime) + ' / ' + fmt(audio.duration);
+    }
+  },
+
+  onEnded() {
+    this.next();
+  },
+
+  seek(event) {
+    const audio = $('#musicAudio');
+    if (!audio || !audio.duration) return;
+    const bar = $('#musicProgressBar');
+    if (!bar) return;
+    const rect = bar.getBoundingClientRect();
+    const pct = (event.clientX - rect.left) / rect.width;
+    audio.currentTime = pct * audio.duration;
+  }
+};
+
+// ==================== Init App ====================
+document.addEventListener('DOMContentLoaded', () => {
+  App.init();
+});
+</script>
+</body>
+</html>
